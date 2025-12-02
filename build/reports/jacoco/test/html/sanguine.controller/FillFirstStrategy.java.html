@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FillFirstStrategy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">f25-hw07-groups-group-placid-bread-6134</a> &gt; <a href="index.source.html" class="el_package">sanguine.controller</a> &gt; <span class="el_source">FillFirstStrategy.java</span></div><h1>FillFirstStrategy.java</h1><pre class="source lang-java linenums">package sanguine.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+import sanguine.model.Board;
+import sanguine.model.Card;
+import sanguine.model.Cell;
+import sanguine.model.PawnCell;
+import sanguine.model.Player;
+import sanguine.model.SanguineModel;
+
+/**
+ * A strategy that picks the first valid move it finds.
+ * It iterates through cards and board positions in order.
+ */
+<span class="fc" id="L16">public class FillFirstStrategy implements Strategy {</span>
+
+  /**
+   * Returns all valid moves in order (first valid move first).
+   *
+   * @param model the model to observe for making moves
+   * @return List of all valid moves
+   */
+  @Override
+  public List&lt;Move&gt; generateMoves(SanguineModel model) {
+<span class="fc" id="L26">    Player currentPlayer = model.getCurrentPlayer();</span>
+<span class="fc" id="L27">    List&lt;Card&gt; hand = model.getPlayerHand(currentPlayer);</span>
+<span class="fc" id="L28">    Board board = model.getBoard();</span>
+<span class="fc" id="L29">    List&lt;List&lt;Cell&gt;&gt; cells = board.getCells();</span>
+    
+<span class="fc" id="L31">    List&lt;Move&gt; moves = new ArrayList&lt;&gt;();</span>
+
+    // Choose first card
+<span class="fc bfc" id="L34" title="All 2 branches covered.">    for (Card card : hand) {</span>
+      // Find spots
+<span class="fc bfc" id="L36" title="All 2 branches covered.">      for (int row = 0; row &lt; cells.size(); row++) {</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        for (int col = 0; col &lt; cells.get(row).size(); col++) {</span>
+<span class="fc" id="L38">          Cell cell = board.getCell(row, col);</span>
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">          if ((cell instanceof PawnCell) </span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">              &amp;&amp; cell.getPlayer() == currentPlayer</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">              &amp;&amp; card.getCost() &lt;= cell.getValue()) {</span>
+<span class="fc" id="L42">            moves.add(new Move(card, row, col));</span>
+          }
+        }
+      }
+<span class="fc" id="L46">    }</span>
+
+<span class="fc" id="L48">    return moves;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

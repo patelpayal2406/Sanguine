@@ -1,0 +1,13 @@
+The controller will use methods from the model to interact with the board and ensure that correct moves are being made.
+
+The controller will have high-level try/catch clauses to reject invalid moves and ensure that the game functions as intended.
+
+We're making the assumption that the players see and interact with their own deck of cards independently.
+
+Some methods we will implement include:
+- `Card selectCard(Player player, int index)` - Selects a card from the specified player's deck
+- `playCard(Card card)` - Plays a card using the model method, accounting for potential exceptions from invalid moves
+- `skipTurn()` - Skips the current player's turn using the model's `pass` method
+- Other methods from the model for getting the state (current player, etc.)
+
+The controller will also contain deck hand management for each player. This will pair with valid move checks and current player move tracking.

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HandPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">f25-hw07-groups-group-placid-bread-6134</a> &gt; <a href="index.source.html" class="el_package">sanguine.view</a> &gt; <span class="el_source">HandPanel.java</span></div><h1>HandPanel.java</h1><pre class="source lang-java linenums">package sanguine.view;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.util.List;
+import sanguine.model.Card;
+import sanguine.model.Coordinate;
+import sanguine.model.Player;
+import sanguine.model.ReadonlySanguineModel;
+
+/**
+ * Represents the JPanel that shows the player's card hand.
+ */
+public class HandPanel extends AbstractPanel {
+  private int selectedCardIndex;
+  private boolean cardIsSelected;
+
+  /**
+   * Initializes model, player, and unselected cells for panel.
+   *
+   * @param model viewable only model
+   * @param player either red or blue
+   */
+  public HandPanel(ReadonlySanguineModel model, Player player) {
+<span class="nc" id="L27">    super(model, player);</span>
+<span class="nc" id="L28">    this.selectedCardIndex = -1;</span>
+<span class="nc" id="L29">    this.cardIsSelected = false;</span>
+<span class="nc" id="L30">  }</span>
+
+  @Override
+  protected void paintComponent(Graphics g) {
+<span class="nc" id="L34">    super.paintComponent(g);</span>
+<span class="nc" id="L35">    Graphics2D g2d = (Graphics2D) g.create();</span>
+<span class="nc bnc" id="L36" title="All 4 branches missed.">    if (logicalWidth == 0 || logicalHeight == 0) {</span>
+<span class="nc" id="L37">      return;</span>
+    }
+<span class="nc" id="L39">    int cardWidth = this.getWidth() / this.logicalWidth;</span>
+<span class="nc" id="L40">    int cardHeight = cardWidth * 2;</span>
+
+<span class="nc" id="L42">    List&lt;Card&gt; hand = model.getPlayerHand(player);</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">    for (int cardIndex = 0; cardIndex &lt; hand.size(); cardIndex++) {</span>
+<span class="nc" id="L44">      int x = cardIndex * cardWidth;</span>
+<span class="nc" id="L45">      int y = 0;</span>
+      //draws each card of the hand next to each other on the panel
+<span class="nc" id="L47">      this.drawCard(g2d, hand.get(cardIndex), cardWidth, cardHeight, x, y, cardIndex);</span>
+    }
+<span class="nc" id="L49">    g2d.dispose();</span>
+<span class="nc" id="L50">  }</span>
+
+  private void drawCard(Graphics2D g2d, Card card,
+                        int cardWidth, int cardHeight, int x, int y, int cardIndex) {
+    //if the card is selected, it is highlighted
+<span class="nc bnc" id="L55" title="All 4 branches missed.">    if (cardIsSelected &amp;&amp; selectedCardIndex == cardIndex) {</span>
+<span class="nc" id="L56">      g2d.setColor(Color.CYAN);</span>
+    } else {
+<span class="nc bnc" id="L58" title="All 2 branches missed.">      Color player = card.getPlayer() == Player.RED</span>
+<span class="nc" id="L59">              ? new Color(235, 50, 50) : new Color(50, 95, 230);</span>
+<span class="nc" id="L60">      g2d.setColor(player);</span>
+    }
+    //draws the name, cost, value, and board of influences for a card
+<span class="nc" id="L63">    g2d.fillRect(x, y, cardWidth, cardHeight);</span>
+<span class="nc" id="L64">    g2d.setColor(Color.BLACK);</span>
+<span class="nc" id="L65">    g2d.drawRect(x, y, cardWidth, cardHeight);</span>
+<span class="nc" id="L66">    g2d.drawString(card.getName(), x + 20, y + 20);</span>
+<span class="nc" id="L67">    g2d.drawString(&quot;Cost: &quot; + card.getCost(), x + 20, y + 35);</span>
+<span class="nc" id="L68">    g2d.drawString(&quot;Value: &quot; + card.getValue(), x + 20, y + 50);</span>
+<span class="nc" id="L69">    this.drawInfluenceGrid(g2d, card, x);</span>
+<span class="nc" id="L70">  }</span>
+
+  private void drawInfluenceGrid(Graphics2D g2d, Card card, int cardX) {
+<span class="nc" id="L73">    List&lt;Coordinate&gt; influences = card.getInfluence();</span>
+    //draws a mini board to show how the board would be influenced by this card
+<span class="nc" id="L75">    int cellWidth = 20;</span>
+<span class="nc" id="L76">    int cellHeight = 25;</span>
+<span class="nc" id="L77">    int x = 0;</span>
+<span class="nc" id="L78">    int y = 0;</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">    for (int row = 0; row &lt; 5; row++) {</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">      for (int col = 0; col &lt; 5; col++) {</span>
+<span class="nc" id="L81">        x = cardX + col * cellWidth + 15;</span>
+<span class="nc" id="L82">        y = row * cellHeight + 60;</span>
+<span class="nc bnc" id="L83" title="All 4 branches missed.">        if (row == 2 &amp;&amp; col == 2) {</span>
+<span class="nc" id="L84">          g2d.setColor(Color.ORANGE);</span>
+<span class="nc" id="L85">          g2d.fillRect(x, y, cellWidth, cellHeight);</span>
+        } else {
+<span class="nc" id="L87">          g2d.setColor(Color.GRAY);</span>
+<span class="nc" id="L88">          g2d.fillRect(x, y, cellWidth, cellHeight);</span>
+        }
+      }
+    }
+<span class="nc" id="L92">    this.drawInfluences(g2d, influences, cellWidth, cellHeight, cardX);</span>
+<span class="nc" id="L93">  }</span>
+
+  private void drawInfluences(Graphics2D g2d, List&lt;Coordinate&gt; influences,
+                              int cellWidth, int cellHeight, int cardX) {
+<span class="nc" id="L97">    int x = 0;</span>
+<span class="nc" id="L98">    int y = 0;</span>
+    //gets the coordinates of the card's influences to appropriately position them on the mini
+    //influence grid
+<span class="nc bnc" id="L101" title="All 2 branches missed.">    for (Coordinate influence : influences) {</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">      for (int row = 0; row &lt; 5; row++) {</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        for (int col = 0; col &lt; 5; col++) {</span>
+<span class="nc" id="L104">          x = cardX + col * cellWidth + 15;</span>
+<span class="nc" id="L105">          y = row * cellHeight + 60;</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">          if (new Coordinate(col - 2, row - 2).equals(influence)) {</span>
+<span class="nc" id="L107">            g2d.setColor(Color.CYAN);</span>
+<span class="nc" id="L108">            g2d.fillRect(x, y, cellWidth, cellHeight);</span>
+          }
+<span class="nc" id="L110">          g2d.setColor(Color.BLACK);</span>
+<span class="nc" id="L111">          g2d.drawLine(x, y, x + cellWidth, y);</span>
+<span class="nc" id="L112">          g2d.drawLine(x, y, x, y + cellHeight);</span>
+        }
+      }
+<span class="nc" id="L115">    }</span>
+    //draws grid lines to separate the cells
+<span class="nc" id="L117">    g2d.drawLine(cardX + 15, cellHeight * 5 + 60,</span>
+            cardX + 15 + cellWidth * 5, cellHeight * 5 + 60);
+<span class="nc" id="L119">    g2d.drawLine(cardX + 15 + cellWidth * 5, 60,</span>
+            cardX + 15 + cellWidth * 5, cellHeight * 5 + 60);
+<span class="nc" id="L121">  }</span>
+
+  @Override
+  public void updateDimensions(int rows, int cols, int handSize) {
+    //each card's height is twice the size of the width
+    //the panel width is based on the number of cards in the hand
+<span class="nc" id="L127">    this.logicalWidth = handSize;</span>
+<span class="nc" id="L128">    this.logicalHeight = 2;</span>
+<span class="nc" id="L129">    Dimension dimension = new Dimension(this.logicalWidth * 100, this.logicalHeight * 100);</span>
+<span class="nc" id="L130">    this.setPreferredSize(dimension);</span>
+<span class="nc" id="L131">    this.revalidate();</span>
+<span class="nc" id="L132">  }</span>
+
+  @Override
+  public void highlightCard(int cardIndex, Player player, boolean selected) {
+<span class="nc bnc" id="L136" title="All 2 branches missed.">    if (player != this.player) {</span>
+<span class="nc" id="L137">      return;</span>
+    }
+    //marks down the position of the card if it is selected
+<span class="nc bnc" id="L140" title="All 2 branches missed.">    if (selected) {</span>
+<span class="nc" id="L141">      this.selectedCardIndex = cardIndex;</span>
+<span class="nc" id="L142">      this.cardIsSelected = true;</span>
+    } else {
+      //resets fields when card is deselected
+<span class="nc" id="L145">      this.cardIsSelected = false;</span>
+<span class="nc" id="L146">      this.selectedCardIndex = -1;</span>
+    }
+<span class="nc" id="L148">    this.repaint();</span>
+<span class="nc" id="L149">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

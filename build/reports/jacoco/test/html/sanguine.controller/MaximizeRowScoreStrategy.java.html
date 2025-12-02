@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MaximizeRowScoreStrategy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">f25-hw07-groups-group-placid-bread-6134</a> &gt; <a href="index.source.html" class="el_package">sanguine.controller</a> &gt; <span class="el_source">MaximizeRowScoreStrategy.java</span></div><h1>MaximizeRowScoreStrategy.java</h1><pre class="source lang-java linenums">package sanguine.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+import sanguine.model.Board;
+import sanguine.model.Card;
+import sanguine.model.Cell;
+import sanguine.model.InfluenceCard;
+import sanguine.model.PawnCell;
+import sanguine.model.Player;
+import sanguine.model.SanguineModel;
+
+/**
+ * A strategy that maximizes the row score for the current player.
+ */
+<span class="fc" id="L16">public class MaximizeRowScoreStrategy implements Strategy {</span>
+
+  /**
+   * Generates a list of moves that maximize the row score for the current player.
+   *
+   * @param model the model to observe for making moves
+   * @return List of moves that maximize the row score for the current player
+   */
+  @Override
+  public List&lt;Move&gt; generateMoves(SanguineModel model) {
+<span class="fc" id="L26">    Player currentPlayer = model.getCurrentPlayer();</span>
+<span class="pc bpc" id="L27" title="1 of 2 branches missed.">    Player opponent = (currentPlayer == Player.RED) ? Player.BLUE : Player.RED;</span>
+<span class="fc" id="L28">    List&lt;Card&gt; hand = model.getPlayerHand(currentPlayer);</span>
+<span class="fc" id="L29">    Board board = model.getBoard();</span>
+<span class="fc" id="L30">    List&lt;List&lt;Cell&gt;&gt; cells = board.getCells();</span>
+    
+<span class="fc" id="L32">    List&lt;Move&gt; bestMoves = new ArrayList&lt;&gt;();</span>
+
+    // Visit rows top-down
+<span class="fc bfc" id="L35" title="All 2 branches covered.">    for (int row = 0; row &lt; cells.size(); row++) {</span>
+<span class="fc" id="L36">      int currentScore = board.getRowScore(row, currentPlayer);</span>
+<span class="fc" id="L37">      int opponentScore = board.getRowScore(row, opponent);</span>
+      
+      // Only consider rows where we are behind or tied
+<span class="fc bfc" id="L40" title="All 2 branches covered.">      if (currentScore &lt;= opponentScore) {</span>
+        // Try each card
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        for (Card card : hand) {</span>
+          // Try each column
+<span class="fc bfc" id="L44" title="All 2 branches covered.">          for (int col = 0; col &lt; cells.get(row).size(); col++) {</span>
+<span class="fc" id="L45">            Cell cell = board.getCell(row, col);</span>
+            // Check if move is valid
+<span class="fc bfc" id="L47" title="All 2 branches covered.">            if ((cell instanceof PawnCell) </span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">                &amp;&amp; cell.getPlayer() == currentPlayer</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">                &amp;&amp; card.getCost() &lt;= cell.getValue()) {</span>
+              
+<span class="fc" id="L51">              int potentialScore = currentScore + card.getValue();</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">              if (potentialScore &gt; opponentScore) {</span>
+<span class="fc" id="L53">                bestMoves.add(new Move(card, row, col));</span>
+              }
+            }
+          }
+<span class="fc" id="L57">        }</span>
+      }
+    }
+
+<span class="fc" id="L61">    return bestMoves;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InfluenceCard.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">f25-hw07-groups-group-placid-bread-6134</a> &gt; <a href="index.source.html" class="el_package">sanguine.model</a> &gt; <span class="el_source">InfluenceCard.java</span></div><h1>InfluenceCard.java</h1><pre class="source lang-java linenums">package sanguine.model;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+/**
+ * Represents a card that influences the cells of the board. The influence coordinates are mirrored
+ * over the y-axis for blue player's cards.
+ */
+public class InfluenceCard implements Card {
+  private final Player player;
+  private final String name;
+  private final int cost;
+  private final int value;
+  private final List&lt;Coordinate&gt; influences;
+
+  /**
+   * Creates an influence card that is available for user-players in the Sanguine game.
+   *
+   * @param player Either a red or blue player
+   * @param name The type of influence card in a deck
+   * @param cost How many pawns are required to use this card
+   * @param value The value of the card that is added to the row score
+   * @param influences A list of squares that are influenced relative to the card
+   * @throws IllegalArgumentException if arguments are invalid
+   */
+  public InfluenceCard(Player player, String name, int cost,
+<span class="fc" id="L29">                       int value, List&lt;Coordinate&gt; influences) {</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">    if (player == null) {</span>
+<span class="fc" id="L31">      throw new IllegalArgumentException(&quot;Player cannot be null&quot;);</span>
+    }
+<span class="fc bfc" id="L33" title="All 4 branches covered.">    if (name == null || name.isEmpty()) {</span>
+<span class="fc" id="L34">      throw new IllegalArgumentException(&quot;Name cannot be null or empty&quot;);</span>
+    }
+<span class="fc bfc" id="L36" title="All 4 branches covered.">    if (cost &lt;= 0 || cost &gt; 3) {</span>
+<span class="fc" id="L37">      throw new IllegalArgumentException(&quot;Cost must be greater than 0 and less than or equal to 3&quot;);</span>
+    }
+<span class="fc bfc" id="L39" title="All 2 branches covered.">    if (value &lt;= 0) {</span>
+<span class="fc" id="L40">      throw new IllegalArgumentException(&quot;Value must be greater than 0&quot;);</span>
+    }
+<span class="fc bfc" id="L42" title="All 4 branches covered.">    if (influences == null || influences.isEmpty()) {</span>
+<span class="fc" id="L43">      throw new IllegalArgumentException(&quot;Coordinates cannot be null or empty&quot;);</span>
+    }
+<span class="fc bfc" id="L45" title="All 2 branches covered.">    for (Coordinate coordinate : influences) {</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">      if (coordinate == null) {</span>
+<span class="fc" id="L47">        throw new IllegalArgumentException(&quot;Coordinates cannot be null&quot;);</span>
+      }
+<span class="fc bfc" id="L49" title="All 4 branches covered.">      if (coordinate.getX() == 0 &amp;&amp; coordinate.getY() == 0) {</span>
+<span class="fc" id="L50">        throw new IllegalArgumentException(&quot;Coordinates cannot be at the center&quot;);</span>
+      }
+<span class="fc" id="L52">    }</span>
+<span class="fc" id="L53">    this.player = player;</span>
+<span class="fc" id="L54">    this.name = name;</span>
+<span class="fc" id="L55">    this.cost = cost;</span>
+<span class="fc" id="L56">    this.value = value;</span>
+    //mirrors the influences for the blue card deck
+<span class="fc bfc" id="L58" title="All 2 branches covered.">    this.influences = player == Player.RED ? influences : this.mirrorInfluence(influences);</span>
+<span class="fc" id="L59">  }</span>
+
+  @Override
+  public Player getPlayer() {
+<span class="fc" id="L63">    return this.player;</span>
+  }
+
+  @Override
+  public String getName() {
+<span class="fc" id="L68">    return this.name;</span>
+  }
+
+  @Override
+  public int getCost() {
+<span class="fc" id="L73">    return this.cost;</span>
+  }
+
+  @Override
+  public int getValue() {
+<span class="fc" id="L78">    return this.value;</span>
+  }
+
+  @Override
+  public List&lt;Coordinate&gt; getInfluence() {
+<span class="fc" id="L83">    return this.influences;</span>
+  }
+
+  private List&lt;Coordinate&gt; mirrorInfluence(List&lt;Coordinate&gt; influences) {
+<span class="fc" id="L87">    List&lt;Coordinate&gt; mirrorInfluences = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">    for (Coordinate c : influences) {</span>
+      //only flips the influence along the y-axis for blue cards
+<span class="fc" id="L90">      mirrorInfluences.add(new Coordinate(c.getX() * -1, c.getY()));</span>
+<span class="fc" id="L91">    }</span>
+<span class="fc" id="L92">    return mirrorInfluences;</span>
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+<span class="fc bfc" id="L97" title="All 2 branches covered.">    if (this == obj) {</span>
+<span class="fc" id="L98">      return true;</span>
+    }
+<span class="pc bpc" id="L100" title="2 of 4 branches missed.">    if (obj == null || getClass() != obj.getClass()) {</span>
+<span class="nc" id="L101">      return false;</span>
+    }
+<span class="fc" id="L103">    InfluenceCard that = (InfluenceCard) obj;</span>
+<span class="pc bpc" id="L104" title="3 of 6 branches missed.">    return cost == that.cost</span>
+        &amp;&amp; value == that.value
+        &amp;&amp; player == that.player
+<span class="pc bpc" id="L107" title="1 of 2 branches missed.">        &amp;&amp; name.equals(that.name)</span>
+<span class="pc bnc" id="L108" title="All 2 branches missed.">        &amp;&amp; influences.equals(that.influences);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L113">    return Objects.hash(player, name, cost, value, influences);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

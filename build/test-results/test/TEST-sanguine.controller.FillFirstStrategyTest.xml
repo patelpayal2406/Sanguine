@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="sanguine.controller.FillFirstStrategyTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2025-12-02T21:03:18.793Z" hostname="MacBook-3.local" time="0.001">
+  <properties/>
+  <testcase name="testReturnsNoMovesWhenNoValidMoves" classname="sanguine.controller.FillFirstStrategyTest" time="0.0"/>
+  <testcase name="testReturnsAllPossibleLocations" classname="sanguine.controller.FillFirstStrategyTest" time="0.001"/>
+  <testcase name="testNoMovesWhenOnlyOpponentCells" classname="sanguine.controller.FillFirstStrategyTest" time="0.0"/>
+  <testcase name="testReturnsAllValidLocationsForCards" classname="sanguine.controller.FillFirstStrategyTest" time="0.0"/>
+  <testcase name="testTriesCardsInOrderAndReturnsAll" classname="sanguine.controller.FillFirstStrategyTest" time="0.0"/>
+  <testcase name="testSkipsOpponentCells" classname="sanguine.controller.FillFirstStrategyTest" time="0.0"/>
+  <testcase name="testReturnsAllValidMoves" classname="sanguine.controller.FillFirstStrategyTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

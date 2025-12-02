@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">f25-hw07-groups-group-placid-bread-6134</a> &gt; <a href="index.source.html" class="el_package">sanguine.view</a> &gt; <span class="el_source">AbstractPanel.java</span></div><h1>AbstractPanel.java</h1><pre class="source lang-java linenums">package sanguine.view;
+
+import java.awt.Graphics;
+import javax.swing.JPanel;
+import sanguine.model.Player;
+import sanguine.model.ReadonlySanguineModel;
+
+/**
+ * Abstracted class for the panels of the view frames.
+ */
+public abstract class AbstractPanel extends JPanel implements PublisherPanel {
+  protected ReadonlySanguineModel model;
+  protected Player player;
+  protected int logicalWidth;
+  protected int logicalHeight;
+
+  /**
+   * Sets up the model and player for each panel on a frame.
+   *
+   * @param model viewable only model of Sanguine
+   * @param player enum player either red or blue
+   */
+<span class="nc" id="L23">  public AbstractPanel(ReadonlySanguineModel model, Player player) {</span>
+<span class="nc bnc" id="L24" title="All 4 branches missed.">    if (model == null || player == null) {</span>
+<span class="nc" id="L25">      throw new IllegalArgumentException(&quot;Model and player cannot be null&quot;);</span>
+    }
+<span class="nc" id="L27">    this.model = model;</span>
+<span class="nc" id="L28">    this.player = player;</span>
+<span class="nc" id="L29">    this.logicalWidth = 0;</span>
+<span class="nc" id="L30">    this.logicalHeight = 0;</span>
+<span class="nc" id="L31">  }</span>
+
+  @Override
+  public void setListener(FeatureListener listener) {
+<span class="nc" id="L35">    this.addMouseListener(new ClickListener(listener, this));</span>
+<span class="nc" id="L36">  }</span>
+
+  @Override
+  protected void paintComponent(Graphics g) {
+<span class="nc" id="L40">    super.paintComponent(g);</span>
+<span class="nc" id="L41">  }</span>
+
+  @Override
+  public abstract void updateDimensions(int rows, int cols, int handSize);
+
+  @Override
+  public int getLogicalWidth() {
+<span class="nc" id="L48">    return this.logicalWidth;</span>
+  }
+
+  @Override
+  public int getLogicalHeight() {
+<span class="nc" id="L53">    return this.logicalHeight;</span>
+  }
+
+  @Override
+  public JPanel getJpanel() {
+<span class="nc" id="L58">    return this;</span>
+  }
+
+  @Override
+  public Player getPlayer() {
+<span class="nc" id="L63">    return this.player;</span>
+  }
+
+  @Override
+<span class="nc" id="L67">  public void highlightCell(int row, int col, Player player, boolean selected) {}</span>
+
+  @Override
+<span class="nc" id="L70">  public void highlightCard(int cardIndex, Player player, boolean selected) {}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

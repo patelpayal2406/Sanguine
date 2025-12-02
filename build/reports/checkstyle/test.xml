@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="10.23.1">
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/test/java/sanguine/SanguineTests.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/test/java/sanguine/controller/ControlTheBoardStrategyTest.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/test/java/sanguine/controller/MockBoard.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/test/java/sanguine/controller/CompositeStrategyTest.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/test/java/sanguine/controller/MinimaxStrategyTest.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/test/java/sanguine/controller/FillFirstStrategyTest.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/test/java/sanguine/controller/MaximizeRowScoreStrategyTest.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/test/java/sanguine/controller/MockSanguineModel.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/test/java/sanguine/model/InfluenceCardTests.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/test/java/sanguine/model/InfluenceBoardTests.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/test/java/sanguine/model/CellTests.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/test/java/sanguine/model/CoordinateTests.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/test/java/sanguine/model/SanguineModelTests.java">
+</file>
+</checkstyle>

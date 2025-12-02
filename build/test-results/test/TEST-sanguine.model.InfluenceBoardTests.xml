@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="sanguine.model.InfluenceBoardTests" tests="18" skipped="0" failures="0" errors="0" timestamp="2025-12-02T21:03:18.817Z" hostname="MacBook-3.local" time="0.004">
+  <properties/>
+  <testcase name="testInvalidRowsZero" classname="sanguine.model.InfluenceBoardTests" time="0.0"/>
+  <testcase name="testGetCellInvalidColTooLarge" classname="sanguine.model.InfluenceBoardTests" time="0.0"/>
+  <testcase name="testGetCellInitialPawns" classname="sanguine.model.InfluenceBoardTests" time="0.001"/>
+  <testcase name="testGetScoreWithCards" classname="sanguine.model.InfluenceBoardTests" time="0.0"/>
+  <testcase name="testPlayCardInvalidRowCol" classname="sanguine.model.InfluenceBoardTests" time="0.0"/>
+  <testcase name="testGetCellInvalidRowTooLarge" classname="sanguine.model.InfluenceBoardTests" time="0.0"/>
+  <testcase name="testGetBoardStringEmptyBoard" classname="sanguine.model.InfluenceBoardTests" time="0.0"/>
+  <testcase name="testGetScoreEmptyBoard" classname="sanguine.model.InfluenceBoardTests" time="0.0"/>
+  <testcase name="testPlayCardOnEmptyCell" classname="sanguine.model.InfluenceBoardTests" time="0.0"/>
+  <testcase name="testInvalidRowsNegative" classname="sanguine.model.InfluenceBoardTests" time="0.0"/>
+  <testcase name="testGetCellInvalidColNegative" classname="sanguine.model.InfluenceBoardTests" time="0.001"/>
+  <testcase name="testInvalidColumnsEven" classname="sanguine.model.InfluenceBoardTests" time="0.0"/>
+  <testcase name="testInvalidColumnsZero" classname="sanguine.model.InfluenceBoardTests" time="0.0"/>
+  <testcase name="testGetCellInvalidRowNegative" classname="sanguine.model.InfluenceBoardTests" time="0.0"/>
+  <testcase name="testPlayCardBasic" classname="sanguine.model.InfluenceBoardTests" time="0.0"/>
+  <testcase name="testValidOddColumns" classname="sanguine.model.InfluenceBoardTests" time="0.0"/>
+  <testcase name="testInvalidColumnsOne" classname="sanguine.model.InfluenceBoardTests" time="0.0"/>
+  <testcase name="testValidBoardCreation" classname="sanguine.model.InfluenceBoardTests" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

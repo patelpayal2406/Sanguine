@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="10.23.1">
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/Sanguine.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/controller/CompositeStrategy.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/controller/Strategy.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/controller/SanguineGuiController.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/controller/FillFirstStrategy.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/controller/SanguineController.java">
+<error line="19" column="3" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/controller/ControlTheBoardStrategy.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/controller/MinimaxStrategy.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/controller/MaximizeRowScoreStrategy.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/controller/Move.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/model/SanguineModel.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/model/InfluenceCard.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/model/SanguineGame.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/model/ValueCell.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/model/PawnCell.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/model/Card.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/model/Player.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/model/Board.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/model/Coordinate.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/model/ReadonlySanguineModel.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/model/Cell.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/model/InfluenceBoard.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/view/SanguineView.java">
+<error line="49" column="3" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="51" column="3" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/view/FeatureListener.java">
+<error line="26" column="3" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="28" column="3" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/view/AbstractPanel.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/view/ClickListener.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/view/HandPanel.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/view/BoardPanel.java">
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/view/SanguineFrame.java">
+<error line="7" column="1" severity="warning" message="Extra separation in import group before &apos;javax.swing.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.CustomImportOrderCheck"/>
+<error line="7" column="19" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - javax.swing.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+<error line="9" column="1" severity="warning" message="Extra separation in import group before &apos;sanguine.model.Player&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.CustomImportOrderCheck"/>
+</file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/view/PublisherPanel.java">
+</file>
+</checkstyle>

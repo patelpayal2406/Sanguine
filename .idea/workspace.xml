@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="cf497fc1-4151-4199-a98f-5d46ffd568dc" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules/f25-hw07-groups-group-placid-bread-6134.main.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/ControllerDesign.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/deck.config" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/example.deck" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Blue-select.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Game-start.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Mid-game.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Red-select.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/Sanguine.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/controller/CompositeStrategy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/controller/ControlTheBoardStrategy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/controller/FillFirstStrategy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/controller/MaximizeRowScoreStrategy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/controller/MinimaxStrategy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/controller/Move.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/controller/SanguineController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/controller/SanguineGuiController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/controller/Strategy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/model/Board.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/model/Card.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/model/Cell.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/model/Coordinate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/model/InfluenceBoard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/model/InfluenceCard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/model/PawnCell.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/model/Player.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/model/ReadonlySanguineModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/model/SanguineGame.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/model/SanguineModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/model/ValueCell.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/view/AbstractPanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/view/BoardPanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/view/ClickListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/view/FeatureListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/view/HandPanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/view/PublisherPanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/view/SanguineFrame.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sanguine/view/SanguineView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/sanguine/SanguineTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/sanguine/controller/CompositeStrategyTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/sanguine/controller/ControlTheBoardStrategyTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/sanguine/controller/FillFirstStrategyTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/sanguine/controller/MaximizeRowScoreStrategyTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/sanguine/controller/MinimaxStrategyTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/sanguine/controller/MockBoard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/sanguine/controller/MockSanguineModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/sanguine/model/CellTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/sanguine/model/CoordinateTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/sanguine/model/InfluenceBoardTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/sanguine/model/InfluenceCardTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/sanguine/model/SanguineModelTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 8
+}]]></component>
+  <component name="ProjectId" id="35wcBkGnmr5xPYy2wcVmyrOBLHI" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Gradle.f25-hw07-groups-group-placid-bread-6134 [run --args=&quot;java -jar f25-hw06-group-placid-bread-6134-dev.jar deck.config 3 5 5 true&quot;].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="f25-hw07-groups-group-placid-bread-6134 [run --args=&amp;quot;java -jar f25-hw06-group-placid-bread-6134-dev.jar deck.config 3 5 5 true&amp;quot;]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="run" />
+            <option value="--args=&amp;quot;java" />
+            <option value="-jar" />
+            <option value="f25-hw06-group-placid-bread-6134-dev.jar" />
+            <option value="deck.config" />
+            <option value="3" />
+            <option value="5" />
+            <option value="5" />
+            <option value="true&amp;quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.f25-hw07-groups-group-placid-bread-6134 [run --args=&amp;quot;java -jar f25-hw06-group-placid-bread-6134-dev.jar deck.config 3 5 5 true&amp;quot;]" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.25557.131" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cf497fc1-4151-4199-a98f-5d46ffd568dc" name="Changes" comment="" />
+      <created>1764024440950</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1764024440950</updated>
+    </task>
+    <servers />
+  </component>
+</project>

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BoardPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">f25-hw07-groups-group-placid-bread-6134</a> &gt; <a href="index.source.html" class="el_package">sanguine.view</a> &gt; <span class="el_source">BoardPanel.java</span></div><h1>BoardPanel.java</h1><pre class="source lang-java linenums">package sanguine.view;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.util.List;
+import sanguine.model.Cell;
+import sanguine.model.PawnCell;
+import sanguine.model.Player;
+import sanguine.model.ReadonlySanguineModel;
+import sanguine.model.ValueCell;
+
+/**
+ * JPanel that displays the board and row scores of the game.
+ */
+public class BoardPanel extends AbstractPanel {
+
+  private int selectedCellRow;
+  private int selectedCellCol;
+  private boolean cellIsSelected;
+
+  /**
+   * Initializes model, player, and unselected cells for panel.
+   *
+   * @param model viewable only model
+   * @param player either red or blue
+   */
+  public BoardPanel(ReadonlySanguineModel model, Player player) {
+<span class="nc" id="L30">    super(model, player);</span>
+<span class="nc" id="L31">    this.selectedCellRow = -1;</span>
+<span class="nc" id="L32">    this.selectedCellCol = -1;</span>
+<span class="nc" id="L33">    this.cellIsSelected = false;</span>
+<span class="nc" id="L34">  }</span>
+
+  @Override
+  public void highlightCell(int row, int col, Player player, boolean selected) {
+<span class="nc bnc" id="L38" title="All 2 branches missed.">    if (player != this.player) {</span>
+<span class="nc" id="L39">      return;</span>
+    }
+    //marks down the position of the cell if it is selected
+<span class="nc bnc" id="L42" title="All 2 branches missed.">    if (selected) {</span>
+<span class="nc" id="L43">      this.selectedCellRow = row;</span>
+<span class="nc" id="L44">      this.selectedCellCol = col;</span>
+<span class="nc" id="L45">      this.cellIsSelected = true;</span>
+    } else {
+      //resets fields when cell is deselected
+<span class="nc" id="L48">      this.cellIsSelected = false;</span>
+<span class="nc" id="L49">      this.selectedCellRow = -1;</span>
+<span class="nc" id="L50">      this.selectedCellCol = -1;</span>
+    }
+<span class="nc" id="L52">    this.repaint();</span>
+<span class="nc" id="L53">  }</span>
+
+  @Override
+  protected void paintComponent(Graphics g) {
+<span class="nc" id="L57">    super.paintComponent(g);</span>
+<span class="nc" id="L58">    Graphics2D g2d = (Graphics2D) g.create();</span>
+<span class="nc bnc" id="L59" title="All 4 branches missed.">    if (logicalWidth == 0 || logicalHeight == 0) {</span>
+<span class="nc" id="L60">      return;</span>
+    }
+    //cells are 100 by 100 pixels
+<span class="nc" id="L63">    int cellSize = Math.min(this.getWidth() / this.logicalWidth, this.getHeight()</span>
+            / this.logicalHeight);
+    //centers the board on the panel
+<span class="nc" id="L66">    int xcoordOffset = (this.getWidth() - cellSize * this.logicalWidth) / 2;</span>
+<span class="nc" id="L67">    int ycoordOffset = (this.getHeight() - cellSize * this.logicalHeight) / 2;</span>
+    //draws each row of the board
+<span class="nc" id="L69">    List&lt;List&lt;Cell&gt;&gt; cells = this.model.getBoard().getCells();</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">    for (int row = 0; row &lt; this.logicalHeight; row++) {</span>
+<span class="nc" id="L71">      this.drawRow(g2d, row, xcoordOffset, ycoordOffset, cellSize, cells);</span>
+    }
+    //draws grid lines to separate each cell
+<span class="nc" id="L74">    g2d.setColor(Color.BLACK);</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">    for (int col = 0; col &lt;= this.logicalWidth; col++) {</span>
+<span class="nc" id="L76">      int x = xcoordOffset + col * cellSize;</span>
+<span class="nc" id="L77">      g2d.drawLine(x, ycoordOffset, x, ycoordOffset + cellSize * this.logicalHeight);</span>
+    }
+<span class="nc bnc" id="L79" title="All 2 branches missed.">    for (int row = 0; row &lt;= this.logicalHeight; row++) {</span>
+<span class="nc" id="L80">      int y = ycoordOffset + row * cellSize;</span>
+<span class="nc" id="L81">      g2d.drawLine(xcoordOffset, y, xcoordOffset + cellSize * this.logicalWidth, y);</span>
+    }
+<span class="nc" id="L83">    g2d.dispose();</span>
+<span class="nc" id="L84">  }</span>
+
+  private void drawRow(Graphics2D g2d, int row, int xcoordOffset, int ycoordOffset,
+                       int cellSize, List&lt;List&lt;Cell&gt;&gt; cells) {
+<span class="nc bnc" id="L88" title="All 2 branches missed.">    for (int col = 0; col &lt; this.logicalWidth; col++) {</span>
+<span class="nc" id="L89">      int x = xcoordOffset + col * cellSize;</span>
+<span class="nc" id="L90">      int y = ycoordOffset + row * cellSize;</span>
+<span class="nc bnc" id="L91" title="All 4 branches missed.">      if (col == 0 || col == this.logicalWidth - 1) {</span>
+        //shows the row scores for each player on the border of the board
+<span class="nc" id="L93">        this.drawScores(g2d, row, col, x, y, cellSize);</span>
+      } else {
+<span class="nc" id="L95">        int boardCol = col - 1;</span>
+<span class="nc bnc" id="L96" title="All 4 branches missed.">        if (row &lt; cells.size() &amp;&amp; row &lt; cells.get(row).size()) {</span>
+<span class="nc" id="L97">          Cell cell = cells.get(row).get(boardCol);</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">          if (cell instanceof PawnCell) {</span>
+            //draws the number of pawns on this cell and shows who owns it
+<span class="nc" id="L100">            this.drawPawnCell(g2d, row, col, x, y, cell, cellSize);</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">          } else if (cell instanceof ValueCell) {</span>
+            //draws the value of the card placed on this cell and shows who owns it
+<span class="nc bnc" id="L103" title="All 2 branches missed.">            Color player = cell.getPlayer() == Player.RED ? new Color(235, 50, 50)</span>
+<span class="nc" id="L104">                    : new Color(50, 95, 230);</span>
+<span class="nc" id="L105">            g2d.setColor(player);</span>
+<span class="nc" id="L106">            g2d.fillRect(x, y, cellSize, cellSize);</span>
+<span class="nc" id="L107">            g2d.setColor(Color.BLACK);</span>
+<span class="nc" id="L108">            g2d.drawString(&quot;&quot; + cell.getValue(), x + 50, y + 50);</span>
+<span class="nc" id="L109">          } else {</span>
+            //if a cell is selected, it becomes highlighted
+<span class="nc bnc" id="L111" title="All 6 branches missed.">            if (cellIsSelected &amp;&amp; row == selectedCellRow &amp;&amp; col - 1 == selectedCellCol) {</span>
+<span class="nc" id="L112">              g2d.setColor(Color.CYAN);</span>
+            } else {
+<span class="nc" id="L114">              g2d.setColor(Color.GRAY);</span>
+            }
+            //the cell is empty
+<span class="nc" id="L117">            g2d.fillRect(x, y, cellSize, cellSize);</span>
+          }
+        }
+      }
+    }
+<span class="nc" id="L122">  }</span>
+
+  private void drawScores(Graphics2D g2d, int row, int col, int x, int y, int cellSize) {
+<span class="nc bnc" id="L125" title="All 2 branches missed.">    if (col == 0) {</span>
+      //for red player
+<span class="nc" id="L127">      g2d.setColor(Color.WHITE);</span>
+<span class="nc" id="L128">      g2d.fillRect(x, y, cellSize, cellSize);</span>
+<span class="nc" id="L129">      g2d.setColor(Color.BLACK);</span>
+<span class="nc" id="L130">      g2d.drawString(this.model.getBoard().getRowScore(row, Player.RED) + &quot;&quot;, x + 50, y + 50);</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">    } else if (col == this.logicalWidth - 1) {</span>
+      //for blue player
+<span class="nc" id="L133">      g2d.setColor(Color.WHITE);</span>
+<span class="nc" id="L134">      g2d.fillRect(x, y, cellSize, cellSize);</span>
+<span class="nc" id="L135">      g2d.setColor(Color.BLACK);</span>
+<span class="nc" id="L136">      g2d.drawString(this.model.getBoard().getRowScore(row, Player.BLUE) + &quot;&quot;, x + 50, y + 50);</span>
+    }
+<span class="nc" id="L138">  }</span>
+
+  private void drawPawnCell(Graphics2D g2d, int row, int col,
+                            int x, int y, Cell cell, int cellSize) {
+    //if the cell is selected, the background is highlighted
+<span class="nc bnc" id="L143" title="All 6 branches missed.">    if (cellIsSelected &amp;&amp; row == selectedCellRow &amp;&amp; col - 1 == selectedCellCol) {</span>
+<span class="nc" id="L144">      g2d.setColor(Color.CYAN);</span>
+    } else {
+<span class="nc" id="L146">      g2d.setColor(Color.GRAY);</span>
+    }
+<span class="nc" id="L148">    g2d.fillRect(x, y, cellSize, cellSize);</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">    Color player = cell.getPlayer() == Player.RED ? new Color(235, 50, 50)</span>
+<span class="nc" id="L150">            : new Color(50, 95, 230);</span>
+<span class="nc" id="L151">    g2d.setColor(player);</span>
+    //centers the pawns on the cell depending on how many are there
+<span class="nc bnc" id="L153" title="All 4 branches missed.">    switch (cell.getValue()) {</span>
+      case 1:
+<span class="nc" id="L155">        g2d.fillOval(x + 40, y + 40, 10, 10);</span>
+<span class="nc" id="L156">        break;</span>
+      case 2:
+<span class="nc" id="L158">        g2d.fillOval(x + 20, y + 40, 10, 10);</span>
+<span class="nc" id="L159">        g2d.fillOval(x + 60, y + 40, 10, 10);</span>
+<span class="nc" id="L160">        break;</span>
+      case 3:
+<span class="nc" id="L162">        g2d.fillOval(x + 40, y + 30, 10, 10);</span>
+<span class="nc" id="L163">        g2d.fillOval(x + 20, y + 50, 10, 10);</span>
+<span class="nc" id="L164">        g2d.fillOval(x + 60, y + 50, 10, 10);</span>
+<span class="nc" id="L165">        break;</span>
+      default:
+    }
+<span class="nc" id="L168">  }</span>
+
+  @Override
+  public void updateDimensions(int rows, int cols, int handSize) {
+    //each cell is 100 * 100 pixels
+    //the panel width accounts for the score columns
+<span class="nc" id="L174">    this.logicalWidth = cols + 2;</span>
+<span class="nc" id="L175">    this.logicalHeight = rows;</span>
+<span class="nc" id="L176">    Dimension dimension = new Dimension(this.logicalWidth * 100, this.logicalHeight * 100);</span>
+<span class="nc" id="L177">    this.setPreferredSize(dimension);</span>
+<span class="nc" id="L178">    this.revalidate();</span>
+<span class="nc" id="L179">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

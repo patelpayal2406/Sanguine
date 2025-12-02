@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InfluenceBoard.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">f25-hw07-groups-group-placid-bread-6134</a> &gt; <a href="index.source.html" class="el_package">sanguine.model</a> &gt; <span class="el_source">InfluenceBoard.java</span></div><h1>InfluenceBoard.java</h1><pre class="source lang-java linenums">package sanguine.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Represents a board of column by row cells. Players can place a card on the board
+ * and see their row scores which is the sum of their value cells. The board is represented with a
+ * list of lists of cells where each inner list is a row of cells.
+ */
+public class InfluenceBoard implements Board {
+  private final List&lt;List&lt;Cell&gt;&gt; cells;
+
+  /**
+   * Initializes a board with the provided rows and cols.
+   * The first column is initialized with red pawns and the last column with blue pawns.
+   *
+   * @param rows Number of rows on the board. Must be greater than 0.
+   * @param cols Number of cols on the board. Must be greater than 1 and odd.
+   * @throws IllegalArgumentException If arguments are invalid.
+   */
+<span class="fc" id="L22">  public InfluenceBoard(int rows, int cols) throws IllegalArgumentException {</span>
+<span class="fc bfc" id="L23" title="All 6 branches covered.">    if (rows &lt;= 0 || cols &lt;= 1 || cols % 2 != 1) {</span>
+<span class="fc" id="L24">      throw new IllegalArgumentException(&quot;Invalid rows and cols.&quot;);</span>
+    }
+    //adds a blank cell for each row and column on the board
+<span class="fc" id="L27">    this.cells = new ArrayList&lt;&gt;(new ArrayList&lt;&gt;());</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">    for (int row = 0; row &lt; rows; row++) {</span>
+<span class="fc" id="L29">      this.cells.add(new ArrayList&lt;&gt;());</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">      for (int col = 0; col &lt; cols; col++) {</span>
+<span class="fc" id="L31">        this.cells.get(row).add(null);</span>
+      }
+    }
+    //initializes the board to set up pawns on certain cells
+<span class="fc" id="L35">    this.initializePawns(rows, cols);</span>
+<span class="fc" id="L36">  }</span>
+
+  private void initializePawns(int rows, int cols) {
+<span class="fc bfc" id="L39" title="All 2 branches covered.">    for (int row = 0; row &lt; rows; row++) {</span>
+      //adds pawns to the first column on each player's side
+<span class="fc" id="L41">      this.setCell(row, 0, new PawnCell(1, Player.RED));</span>
+<span class="fc" id="L42">      this.setCell(row, cols - 1, new PawnCell(1, Player.BLUE));</span>
+    }
+<span class="fc" id="L44">  }</span>
+
+  @Override
+  public String getBoard() {
+<span class="fc" id="L48">    StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">    for (int row = 0; row &lt; this.cells.size(); row++) {</span>
+      //shows this row's calculated score for the red player's value cells
+<span class="fc" id="L51">      sb.append(this.getRowScore(row, Player.RED)).append(&quot; &quot;);</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">      for (int col = 0; col &lt; this.cells.get(row).size(); col++) {</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        if (this.getCell(row, col) instanceof PawnCell) {</span>
+          //displays the number of pawns on this cell
+<span class="fc" id="L55">          sb.append(this.getCell(row, col).getValue());</span>
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">        } else if (this.getCell(row, col) instanceof ValueCell) {</span>
+          //displays the owner of the card that was placed on this cell
+<span class="nc" id="L58">          sb.append(this.getCell(row, col).getPlayer().toString().charAt(0));</span>
+        } else {
+          //represents an empty cell
+<span class="fc" id="L61">          sb.append(&quot;_&quot;);</span>
+        }
+      }
+      //shows this row's calculated score for the blue player's value cells
+<span class="fc" id="L65">      sb.append(&quot; &quot;).append(this.getRowScore(row, Player.BLUE)).append(&quot;\n&quot;);</span>
+    }
+<span class="fc" id="L67">    return sb.toString();</span>
+  }
+
+  @Override
+  public int getRowScore(int row, Player player) {
+<span class="fc" id="L72">    int sum = 0;</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">    for (int col = 0; col &lt; this.cells.get(row).size(); col++) {</span>
+<span class="fc" id="L74">      Cell currentCell = this.getCell(row, col);</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">      if (currentCell instanceof ValueCell</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">              &amp;&amp; currentCell.getPlayer() == player) {</span>
+        //sums all the values of each value cell for a given row and player
+<span class="fc" id="L78">        sum += currentCell.getValue();</span>
+      }
+    }
+<span class="fc" id="L81">    return sum;</span>
+  }
+
+  @Override
+  public int getTotalScore(Player player) {
+<span class="fc" id="L86">    int redTotal = 0;</span>
+<span class="fc" id="L87">    int blueTotal = 0;</span>
+
+<span class="fc bfc" id="L89" title="All 2 branches covered.">    for (int row = 0; row &lt; this.cells.size(); row++) {</span>
+      //finds the row specific score for each player
+<span class="fc" id="L91">      int redRowScore = this.getRowScore(row, Player.RED);</span>
+<span class="fc" id="L92">      int blueRowScore = this.getRowScore(row, Player.BLUE);</span>
+      //adds each row's score for each player
+<span class="fc bfc" id="L94" title="All 2 branches covered.">      if (redRowScore &gt; blueRowScore) {</span>
+<span class="fc" id="L95">        redTotal += redRowScore;</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">      } else if (blueRowScore &gt; redRowScore) {</span>
+<span class="nc" id="L97">        blueTotal += blueRowScore;</span>
+      }
+    }
+<span class="fc bfc" id="L100" title="All 2 branches covered.">    return player == Player.RED ? redTotal : blueTotal;</span>
+  }
+
+  @Override
+  public void playCard(Card card, int row, int col) throws IllegalArgumentException {
+<span class="fc" id="L105">    Cell currentCell = this.getCell(row, col);</span>
+    // Check if cell is a pawn cell
+<span class="fc bfc" id="L107" title="All 2 branches covered.">    if (!(currentCell instanceof PawnCell)) {</span>
+<span class="fc" id="L108">      throw new IllegalArgumentException(&quot;Invalid cell. Must be a pawn cell.&quot;);</span>
+    }
+    // Check if cell is owned by player
+<span class="pc bpc" id="L111" title="1 of 2 branches missed.">    if (!(currentCell.getPlayer() == card.getPlayer())) {</span>
+<span class="nc" id="L112">      throw new IllegalArgumentException(&quot;Invalid cell. Cell not owned by current player.&quot;);</span>
+    }
+    // Check if cell has enough pawns for cost
+<span class="pc bpc" id="L115" title="1 of 2 branches missed.">    if (currentCell.getValue() &lt; card.getCost()) {</span>
+<span class="nc" id="L116">      throw new IllegalArgumentException(&quot;Invalid cell. Not enough pawns for card cost.&quot;);</span>
+    }
+    // Get influences for card
+<span class="fc" id="L119">    List&lt;Coordinate&gt; influences = card.getInfluence();</span>
+    // Loop through influences, using row and col as absolute position
+<span class="fc bfc" id="L121" title="All 2 branches covered.">    for (Coordinate influence : influences) {</span>
+      // Change cell for each influence position
+<span class="fc" id="L123">      this.influenceCell(card.getPlayer(), row + influence.getY(), col + influence.getX());</span>
+<span class="fc" id="L124">    }</span>
+
+    // Update the cell to reflect the card's value
+<span class="fc" id="L127">    this.setCell(row, col, new ValueCell(card.getValue(), card.getPlayer()));</span>
+<span class="fc" id="L128">  }</span>
+
+  private void influenceCell(Player player, int row, int col) throws IllegalArgumentException {
+    //does nothing if arguments are invalid
+<span class="pc bpc" id="L132" title="3 of 6 branches missed.">    if (row &lt; 0 || row &gt;= this.cells.size()</span>
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">            || col &lt; 0 || col &gt;= this.cells.get(0).size()) {</span>
+<span class="nc" id="L134">      return;</span>
+    }
+
+<span class="fc" id="L137">    Cell c = getCell(row, col);</span>
+<span class="fc bfc" id="L138" title="All 2 branches covered.">    if (c instanceof PawnCell) {</span>
+<span class="pc bpc" id="L139" title="1 of 2 branches missed.">      if (c.getPlayer() == player) {</span>
+        //adds a pawn to an influenced cell if this player owns it
+        // but number of pawns cannot exceed 3
+<span class="fc" id="L142">        this.setCell(row, col, new PawnCell(Math.min(c.getValue() + 1, 3), player));</span>
+      } else {
+        //player takes ownership of the pawns in the influenced cell if they don't already own them
+<span class="nc" id="L145">        this.setCell(row, col, new PawnCell(c.getValue(), player));</span>
+      }
+<span class="pc bpc" id="L147" title="1 of 2 branches missed.">    } else if (c == null) {</span>
+      //creates a single pawn PawnCell if the influenced cell was empty
+<span class="fc" id="L149">      this.setCell(row, col, new PawnCell(1, player));</span>
+    }
+<span class="fc" id="L151">  }</span>
+
+  private void setCell(int row, int col, Cell cell) {
+<span class="fc" id="L154">    this.checkValidCell(row, col);</span>
+<span class="fc" id="L155">    this.cells.get(row).set(col, cell);</span>
+<span class="fc" id="L156">  }</span>
+
+  @Override
+  public Cell getCell(int row, int col) {
+<span class="fc" id="L160">    this.checkValidCell(row, col);</span>
+<span class="fc" id="L161">    return this.cells.get(row).get(col);</span>
+  }
+
+  @Override
+  public List&lt;List&lt;Cell&gt;&gt; getCells() {
+<span class="fc" id="L166">    List&lt;List&lt;Cell&gt;&gt; copy = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L167" title="All 2 branches covered.">    for (List&lt;Cell&gt; row : this.cells) {</span>
+<span class="fc" id="L168">      List&lt;Cell&gt; copiedRow = new ArrayList&lt;&gt;(row);</span>
+<span class="fc" id="L169">      copy.add(copiedRow);</span>
+<span class="fc" id="L170">    }</span>
+<span class="fc" id="L171">    return copy;</span>
+  }
+
+  private void checkValidCell(int row, int col) throws IllegalArgumentException {
+<span class="fc bfc" id="L175" title="All 6 branches covered.">    if (row &lt; 0 || row &gt;= this.cells.size()</span>
+<span class="fc bfc" id="L176" title="All 2 branches covered.">            || col &lt; 0 || col &gt;= this.cells.get(0).size()) {</span>
+<span class="fc" id="L177">      throw new IllegalArgumentException(&quot;Invalid row or column.&quot;);</span>
+    }
+<span class="fc" id="L179">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

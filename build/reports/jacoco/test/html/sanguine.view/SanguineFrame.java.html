@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SanguineFrame.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">f25-hw07-groups-group-placid-bread-6134</a> &gt; <a href="index.source.html" class="el_package">sanguine.view</a> &gt; <span class="el_source">SanguineFrame.java</span></div><h1>SanguineFrame.java</h1><pre class="source lang-java linenums">package sanguine.view;
+
+import java.awt.BorderLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import javax.swing.*;
+
+import sanguine.model.Player;
+import sanguine.model.ReadonlySanguineModel;
+
+/**
+ * The window of the game and can be either from the red or blue player's perspective.
+ */
+public class SanguineFrame extends JFrame implements SanguineView {
+  private final BoardPanel boardPanel;
+  private final HandPanel handPanel;
+  private final ReadonlySanguineModel model;
+  private final Player player;
+
+  /**
+   * Initializes the frame to hold different panels for each player.
+   *
+   * @param model viewable only Sanguine
+   * @param player the player of the frame
+   */
+<span class="nc" id="L27">  public SanguineFrame(ReadonlySanguineModel model, Player player) {</span>
+<span class="nc" id="L28">    this.setDefaultCloseOperation(EXIT_ON_CLOSE);</span>
+<span class="nc" id="L29">    this.model = model;</span>
+<span class="nc" id="L30">    this.player = player;</span>
+    //initializes the two panels for each frame
+<span class="nc" id="L32">    this.boardPanel = new BoardPanel(this.model, this.player);</span>
+<span class="nc" id="L33">    this.handPanel = new HandPanel(this.model, this.player);</span>
+<span class="nc" id="L34">    this.setLayout(new BorderLayout());</span>
+    //panels are placed on top of each other
+<span class="nc" id="L36">    this.add(boardPanel, BorderLayout.NORTH);</span>
+<span class="nc" id="L37">    this.add(handPanel, BorderLayout.SOUTH);</span>
+<span class="nc" id="L38">    this.pack();</span>
+<span class="nc" id="L39">  }</span>
+
+  @Override
+  public void refresh() {
+    //shows the current player at the top of the frame
+<span class="nc" id="L44">    this.setTitle(this.model.getCurrentPlayer().toString() + &quot;'s Turn&quot;);</span>
+<span class="nc" id="L45">    this.repaint();</span>
+<span class="nc" id="L46">  }</span>
+
+  @Override
+  public void makeVisible() {
+<span class="nc" id="L50">    this.setVisible(true);</span>
+<span class="nc" id="L51">  }</span>
+
+  @Override
+  public void setListener(FeatureListener listener) {
+    //adds click listeners to each panel
+<span class="nc" id="L56">    this.boardPanel.setListener(listener);</span>
+<span class="nc" id="L57">    this.handPanel.setListener(listener);</span>
+    //creates key listeners to connect the controller to the view
+    //'c' is for confirming the placement of a selected card on the selected cell
+    //'p' is for passing a turn
+<span class="nc" id="L61">    KeyListener keyListener = new KeyListener() {</span>
+      @Override
+      public void keyTyped(KeyEvent e) {
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        if (e.getKeyChar() == 'c') {</span>
+<span class="nc" id="L65">          listener.confirmMove(player);</span>
+        }
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        if (e.getKeyChar() == 'p') {</span>
+<span class="nc" id="L68">          listener.passTurn(player);</span>
+        }
+<span class="nc" id="L70">      }</span>
+
+      @Override
+      public void keyPressed(KeyEvent e) {
+
+<span class="nc" id="L75">      }</span>
+
+      @Override
+      public void keyReleased(KeyEvent e) {
+
+<span class="nc" id="L80">      }</span>
+    };
+<span class="nc" id="L82">    this.addKeyListener(keyListener);</span>
+<span class="nc" id="L83">  }</span>
+
+  @Override
+  public void refreshSize(int rows, int cols, int handSize) {
+<span class="nc" id="L87">    this.boardPanel.updateDimensions(rows, cols, handSize);</span>
+<span class="nc" id="L88">    this.handPanel.updateDimensions(rows, cols, handSize);</span>
+<span class="nc" id="L89">    this.boardPanel.revalidate();</span>
+<span class="nc" id="L90">    this.handPanel.revalidate();</span>
+<span class="nc" id="L91">    this.pack();</span>
+<span class="nc" id="L92">    this.refresh();</span>
+<span class="nc" id="L93">  }</span>
+
+  @Override
+  public PublisherPanel getBoardPanel() {
+<span class="nc" id="L97">    return this.boardPanel;</span>
+  }
+
+  @Override
+  public PublisherPanel getHandPanel() {
+<span class="nc" id="L102">    return this.handPanel;</span>
+  }
+
+  @Override
+  public void endGame() {
+<span class="nc" id="L107">    this.boardPanel.setEnabled(false);</span>
+<span class="nc" id="L108">    this.handPanel.setEnabled(false);</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">    for (KeyListener kl : this.getKeyListeners()) {</span>
+<span class="nc" id="L110">      this.removeKeyListener(kl);</span>
+    }
+<span class="nc" id="L112">  }</span>
+
+  @Override
+  public void showWinner(Player winner) {
+<span class="nc bnc" id="L116" title="All 2 branches missed.">    String winnerMessage = (winner == null)</span>
+<span class="nc" id="L117">            ? &quot;Game over! It's a tie.&quot; : &quot;Game over! &quot; + winner + &quot; wins!&quot;;</span>
+<span class="nc" id="L118">    JOptionPane.showMessageDialog(this, winnerMessage);</span>
+<span class="nc" id="L119">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
