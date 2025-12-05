@@ -41,14 +41,15 @@ public final class Sanguine {
       //creates windows for each player to interact with
       SanguineView redView = new SanguineFrame(model, Player.RED);
       SanguineView blueView = new SanguineFrame(model, Player.BLUE);
-      //sets up a shared controller for the players
-      SanguineController redController = new SanguineGuiController(redView, model);
-      SanguineController blueController = new SanguineGuiController(blueView, model);
+      //sets up a controller for each of the players
+      SanguineController redController = new SanguineGuiController(redView, model, Player.RED);
+      SanguineController blueController = new SanguineGuiController(blueView, model, Player.BLUE);
       //uses the user inputs to start the game
-      redController.playGame(rows, cols, handSize, shuffle);
       blueController.playGame(rows, cols, handSize, shuffle);
-      redView.makeVisible();
+      redController.playGame(rows, cols, handSize, shuffle);
+      //enables the view of the game for each player
       blueView.makeVisible();
+      redView.makeVisible();
     }  catch (FileNotFoundException e) {
       System.out.println("Configuration file not found");
     } catch (NumberFormatException e) {

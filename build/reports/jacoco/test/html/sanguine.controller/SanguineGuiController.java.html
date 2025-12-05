@@ -2,9 +2,8 @@
 
 import sanguine.model.Player;
 import sanguine.model.SanguineModel;
-import sanguine.view.BoardPanel;
 import sanguine.view.FeatureListener;
-import sanguine.view.HandPanel;
+import sanguine.view.ModelListener;
 import sanguine.view.PublisherPanel;
 import sanguine.view.SanguineView;
 
@@ -12,7 +11,7 @@ import sanguine.view.SanguineView;
  * Controller class that takes the user inputs and sends and receives data
  * from the model and the view.
  */
-public class SanguineGuiController implements SanguineController, FeatureListener {
+public class SanguineGuiController implements SanguineController, FeatureListener, ModelListener {
   private final SanguineView playerView;
   private final SanguineModel model;
   private boolean cellWasSelected;
@@ -20,124 +19,162 @@ public class SanguineGuiController implements SanguineController, FeatureListene
   private int selectedCellRow;
   private int selectedCellCol;
   private int selectedCardIndex;
+  private final Player controllerPlayer;
 
   /**
    * Initializes the panels for the board and card hands and ensures there are no selections yet.
    *
    * @param playerView the view frame for a specified player
    * @param model the Sanguine model
+   * @param player the player of this controller
    */
-<span class="nc" id="L30">  public SanguineGuiController(SanguineView playerView, SanguineModel model) {</span>
-<span class="nc bnc" id="L31" title="All 4 branches missed.">    if (playerView == null || model == null) {</span>
-<span class="nc" id="L32">      throw new IllegalArgumentException(&quot;View and model cannot be null&quot;);</span>
+<span class="nc" id="L31">  public SanguineGuiController(SanguineView playerView, SanguineModel model, Player player) {</span>
+<span class="nc bnc" id="L32" title="All 4 branches missed.">    if (playerView == null || model == null) {</span>
+<span class="nc" id="L33">      throw new IllegalArgumentException(&quot;View and model cannot be null&quot;);</span>
     }
-<span class="nc" id="L34">    this.playerView = playerView;</span>
+<span class="nc" id="L35">    this.playerView = playerView;</span>
     //adds the ability for feature listening to the frame
-<span class="nc" id="L36">    this.playerView.setListener(this);</span>
-<span class="nc" id="L37">    this.model = model;</span>
-<span class="nc" id="L38">    this.cellWasSelected = false;</span>
-<span class="nc" id="L39">    this.cardWasSelected = false;</span>
-<span class="nc" id="L40">    this.selectedCellRow = -1;</span>
-<span class="nc" id="L41">    this.selectedCellCol = -1;</span>
-<span class="nc" id="L42">    this.selectedCardIndex = -1;</span>
-<span class="nc" id="L43">  }</span>
+<span class="nc" id="L37">    this.playerView.setListener(this);</span>
+<span class="nc" id="L38">    this.model = model;</span>
+    //adds the ability for listening to the model
+<span class="nc" id="L40">    this.model.setListener(this);</span>
+<span class="nc" id="L41">    this.controllerPlayer = player;</span>
+<span class="nc" id="L42">    this.cellWasSelected = false;</span>
+<span class="nc" id="L43">    this.cardWasSelected = false;</span>
+<span class="nc" id="L44">    this.selectedCellRow = -1;</span>
+<span class="nc" id="L45">    this.selectedCellCol = -1;</span>
+<span class="nc" id="L46">    this.selectedCardIndex = -1;</span>
+<span class="nc" id="L47">  }</span>
 
   @Override
   public void playGame(int rows, int cols, int handSize, boolean shuffle) {
     //calls the model so game can be initialized and methods can be called
     try {
-<span class="nc" id="L49">      this.model.startGame(rows, cols, handSize, shuffle);</span>
-<span class="nc" id="L50">    } catch (IllegalStateException e) {</span>
+<span class="nc" id="L53">      this.model.startGame(rows, cols, handSize, shuffle);</span>
+<span class="nc" id="L54">    } catch (IllegalStateException e) {</span>
       // game already started
-<span class="nc" id="L52">    }</span>
+<span class="nc" id="L56">    }</span>
     //adjusts the size of the frame and panels based on the user inputs
-<span class="nc" id="L54">    this.playerView.refreshSize(rows, cols, handSize);</span>
+<span class="nc" id="L58">    this.playerView.refreshSize(rows, cols, handSize);</span>
     //makes the frame visible as soon as it is adjusted
-<span class="nc" id="L56">    this.playerView.makeVisible();</span>
-<span class="nc" id="L57">  }</span>
-
-  @Override
-  public void checkGameOver() {
-<span class="nc bnc" id="L61" title="All 2 branches missed.">    if (model.gameOver()) {</span>
-<span class="nc" id="L62">      this.playerView.endGame();</span>
-<span class="nc" id="L63">      this.playerView.showWinner(model.getWinner());</span>
+<span class="nc" id="L60">    this.playerView.makeVisible();</span>
+    //shows the first player's turn
+<span class="nc bnc" id="L62" title="All 2 branches missed.">    if (Player.RED == this.controllerPlayer) {</span>
+<span class="nc" id="L63">      this.playerView.showTurn(Player.RED);</span>
     }
 <span class="nc" id="L65">  }</span>
 
   @Override
-  public void selectBoardCell(int row, int col, Player player) {
-<span class="nc bnc" id="L69" title="All 2 branches missed.">    if (player != model.getCurrentPlayer()) {</span>
-<span class="nc" id="L70">      throw new IllegalArgumentException(&quot;Player is not the current player&quot;);</span>
+  public void checkGameOver() {
+<span class="nc bnc" id="L69" title="All 2 branches missed.">    if (model.gameOver()) {</span>
+<span class="nc" id="L70">      this.gameOver(this.model.getWinner());</span>
     }
-<span class="nc" id="L72">    PublisherPanel boardPanel = this.playerView.getBoardPanel();</span>
-<span class="nc bnc" id="L73" title="All 4 branches missed.">    boolean isSameCell = this.selectedCellRow == row</span>
+<span class="nc" id="L72">  }</span>
+
+  @Override
+  public void selectBoardCell(int row, int col, Player player) {
+<span class="nc bnc" id="L76" title="All 2 branches missed.">    if (player != model.getCurrentPlayer()) {</span>
+<span class="nc" id="L77">      String message = &quot;Player &quot; + player + &quot; is not currently playing&quot;;</span>
+<span class="nc" id="L78">      this.playerView.showError(message);</span>
+<span class="nc" id="L79">      throw new IllegalStateException(message);</span>
+    }
+<span class="nc" id="L81">    PublisherPanel boardPanel = this.playerView.getBoardPanel();</span>
+<span class="nc bnc" id="L82" title="All 4 branches missed.">    boolean isSameCell = this.selectedCellRow == row</span>
             &amp;&amp; this.selectedCellCol == col;
     //cell is deselected/unhighlighted if the given cell and the selected cell are the same
     // and the cell was already selected/highlighted
-<span class="nc bnc" id="L77" title="All 4 branches missed.">    if (isSameCell &amp;&amp; cellWasSelected) {</span>
-<span class="nc" id="L78">      this.selectedCellRow = -1;</span>
-<span class="nc" id="L79">      this.selectedCellCol = -1;</span>
-<span class="nc" id="L80">      this.cellWasSelected = false;</span>
-<span class="nc" id="L81">      boardPanel.highlightCell(row, col, player, false);</span>
+<span class="nc bnc" id="L86" title="All 4 branches missed.">    if (isSameCell &amp;&amp; cellWasSelected) {</span>
+<span class="nc" id="L87">      this.selectedCellRow = -1;</span>
+<span class="nc" id="L88">      this.selectedCellCol = -1;</span>
+<span class="nc" id="L89">      this.cellWasSelected = false;</span>
+<span class="nc" id="L90">      boardPanel.highlightCell(row, col, player, false);</span>
     } else {
       //if the cell is not already selected, the cell will now be selected/highlighted
-<span class="nc" id="L84">      this.cellWasSelected = true;</span>
-<span class="nc" id="L85">      this.selectedCellRow = row;</span>
-<span class="nc" id="L86">      this.selectedCellCol = col;</span>
-<span class="nc" id="L87">      boardPanel.highlightCell(row, col, player, true);</span>
+<span class="nc" id="L93">      this.cellWasSelected = true;</span>
+<span class="nc" id="L94">      this.selectedCellRow = row;</span>
+<span class="nc" id="L95">      this.selectedCellCol = col;</span>
+<span class="nc" id="L96">      boardPanel.highlightCell(row, col, player, true);</span>
     }
-    //stub controller function to show which cell was clicked on
-<span class="nc" id="L90">    System.out.println(row + &quot; &quot; + col);</span>
-<span class="nc" id="L91">  }</span>
+<span class="nc" id="L98">    this.playerView.refresh();</span>
+<span class="nc" id="L99">  }</span>
 
   @Override
   public void selectCard(int cardIndex, Player player) {
-<span class="nc bnc" id="L95" title="All 2 branches missed.">    if (player != model.getCurrentPlayer()) {</span>
-<span class="nc" id="L96">      throw new IllegalArgumentException(&quot;Player is not the current player&quot;);</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">    if (player != model.getCurrentPlayer()) {</span>
+<span class="nc" id="L104">      String message = &quot;Player &quot; + player + &quot; is not currently playing&quot;;</span>
+<span class="nc" id="L105">      this.playerView.showError(message);</span>
+<span class="nc" id="L106">      throw new IllegalStateException(message);</span>
     }
-<span class="nc" id="L98">    PublisherPanel handPanel = this.playerView.getHandPanel();</span>
-<span class="nc bnc" id="L99" title="All 2 branches missed.">    boolean isSameCard = this.selectedCardIndex == cardIndex;</span>
+<span class="nc" id="L108">    PublisherPanel handPanel = this.playerView.getHandPanel();</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">    boolean isSameCard = this.selectedCardIndex == cardIndex;</span>
     //card is deselected/unhighlighted if the card at the given index and the selected card
     //are the same and the card was already selected/highlighted
-<span class="nc bnc" id="L102" title="All 4 branches missed.">    if (isSameCard &amp;&amp; cardWasSelected) {</span>
-<span class="nc" id="L103">      this.selectedCardIndex = -1;</span>
-<span class="nc" id="L104">      this.cardWasSelected = false;</span>
-<span class="nc" id="L105">      handPanel.highlightCard(cardIndex, player, false);</span>
+<span class="nc bnc" id="L112" title="All 4 branches missed.">    if (isSameCard &amp;&amp; cardWasSelected) {</span>
+<span class="nc" id="L113">      this.selectedCardIndex = -1;</span>
+<span class="nc" id="L114">      this.cardWasSelected = false;</span>
+<span class="nc" id="L115">      handPanel.highlightCard(cardIndex, player, false);</span>
     } else {
       //if the card is not already selected, the card will now be selected/highlighted
-<span class="nc" id="L108">      this.cardWasSelected = true;</span>
-<span class="nc" id="L109">      this.selectedCardIndex = cardIndex;</span>
-<span class="nc" id="L110">      handPanel.highlightCard(cardIndex, player, true);</span>
+<span class="nc" id="L118">      this.cardWasSelected = true;</span>
+<span class="nc" id="L119">      this.selectedCardIndex = cardIndex;</span>
+<span class="nc" id="L120">      handPanel.highlightCard(cardIndex, player, true);</span>
     }
-    //stub controller function to show which card was clicked on
-<span class="nc" id="L113">    System.out.println(cardIndex + &quot; &quot;);</span>
-<span class="nc" id="L114">  }</span>
+<span class="nc" id="L122">    this.playerView.refresh();</span>
+<span class="nc" id="L123">  }</span>
 
   @Override
   public void confirmMove(Player player) {
-<span class="nc bnc" id="L118" title="All 4 branches missed.">    if (!cellWasSelected || !cardWasSelected) {</span>
-<span class="nc" id="L119">      System.out.println(&quot;Please select both a cell and card&quot;);</span>
-<span class="nc" id="L120">      return;</span>
+<span class="nc bnc" id="L127" title="All 4 branches missed.">    if (!cellWasSelected || !cardWasSelected) {</span>
+<span class="nc" id="L128">      this.playerView.showError(&quot;Please select both a cell and card&quot;);</span>
+<span class="nc" id="L129">      return;</span>
     }
-<span class="nc" id="L122">    model.playCard(model.getPlayerHand(player).get(this.selectedCardIndex),</span>
-            this.selectedCellRow, this.selectedCellCol);
-<span class="nc" id="L124">    playerView.refresh();</span>
-<span class="nc" id="L125">    SanguineView red = playerView;</span>
-<span class="nc" id="L126">    red.getBoardPanel().highlightCell(selectedCellRow, selectedCellCol, player, false);</span>
-<span class="nc" id="L127">    red.getHandPanel().highlightCard(selectedCardIndex, player, false);</span>
-<span class="nc" id="L128">    cellWasSelected = false;</span>
-<span class="nc" id="L129">    cardWasSelected = false;</span>
-<span class="nc" id="L130">    selectedCardIndex = -1;</span>
-<span class="nc" id="L131">    selectedCellRow = -1;</span>
-<span class="nc" id="L132">    selectedCellCol = -1;</span>
-<span class="nc" id="L133">    this.checkGameOver();</span>
-<span class="nc" id="L134">  }</span>
+    try {
+<span class="nc" id="L132">      model.playCard(model.getPlayerHand(player).get(this.selectedCardIndex),</span>
+              this.selectedCellRow, this.selectedCellCol);
+<span class="nc" id="L134">    } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L135">      this.playerView.showError(e.getMessage());</span>
+<span class="nc" id="L136">    }</span>
+<span class="nc" id="L137">    this.playerView.getBoardPanel().highlightCell(selectedCellRow, selectedCellCol, player, false);</span>
+<span class="nc" id="L138">    this.playerView.getHandPanel().highlightCard(selectedCardIndex, player, false);</span>
+<span class="nc" id="L139">    cellWasSelected = false;</span>
+<span class="nc" id="L140">    cardWasSelected = false;</span>
+<span class="nc" id="L141">    selectedCardIndex = -1;</span>
+<span class="nc" id="L142">    selectedCellRow = -1;</span>
+<span class="nc" id="L143">    selectedCellCol = -1;</span>
+<span class="nc" id="L144">    this.checkGameOver();</span>
+<span class="nc" id="L145">  }</span>
 
   @Override
   public void passTurn(Player player) {
-<span class="nc" id="L138">    model.pass();</span>
-<span class="nc" id="L139">    this.playerView.refresh();</span>
-<span class="nc" id="L140">    this.checkGameOver();</span>
-<span class="nc" id="L141">  }</span>
+<span class="nc" id="L149">    this.model.pass();</span>
+<span class="nc" id="L150">    this.playerView.refresh();</span>
+<span class="nc" id="L151">    this.checkGameOver();</span>
+<span class="nc" id="L152">  }</span>
+
+  @Override
+  public void turnChanged(Player player) {
+<span class="nc" id="L156">    this.playerView.refresh();</span>
+<span class="nc bnc" id="L157" title="All 2 branches missed.">    if (player == this.controllerPlayer) {</span>
+<span class="nc" id="L158">      this.playerView.showTurn(player);</span>
+    }
+<span class="nc" id="L160">  }</span>
+
+  @Override
+  public void gameOver(Player winner) {
+<span class="nc" id="L164">    this.playerView.endGame(winner);</span>
+<span class="nc" id="L165">  }</span>
+
+  @Override
+  public void errorOccurrence(String reason) {
+<span class="nc" id="L169">    this.playerView.showError(reason);</span>
+<span class="nc" id="L170">  }</span>
+
+  @Override
+  public void turnPassed(Player player) {
+<span class="nc" id="L174">    this.playerView.refresh();</span>
+<span class="nc bnc" id="L175" title="All 2 branches missed.">    if (player == this.controllerPlayer) {</span>
+<span class="nc" id="L176">      this.playerView.showPass(player);</span>
+    }
+<span class="nc" id="L178">  }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

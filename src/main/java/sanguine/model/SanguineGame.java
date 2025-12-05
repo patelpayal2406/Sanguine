@@ -3,6 +3,7 @@ package sanguine.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import sanguine.view.ModelListener;
 
 /**
  * Represents the model of the game where a deck of cards
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public class SanguineGame implements SanguineModel {
   private Board board;
-  private Player currentPlayer;
+  private int handSize;
 
   private final List<Card> redDeck;
   private final List<Card> blueDeck;
@@ -18,9 +19,11 @@ public class SanguineGame implements SanguineModel {
   private final List<Card> blueHand;
   // INVARIANT: each player's deck and hand must contain cards that only belong to them
 
-  private int handSize;
+  private Player currentPlayer;
   private Player lastPlayerWhoPassed;
   private int consecutivePasses;
+
+  private final List<ModelListener> listeners;
 
   /**
    * Creates the deck of influence cards for each player to use.
@@ -39,6 +42,7 @@ public class SanguineGame implements SanguineModel {
     this.handSize = 0;
     this.consecutivePasses = 0;
     this.lastPlayerWhoPassed = null;
+    this.listeners = new ArrayList<>();
   }
 
   private void checkCorrectPlayers(List<Card> deck, Player player) {
@@ -47,6 +51,14 @@ public class SanguineGame implements SanguineModel {
         throw new IllegalArgumentException("Card doesn't belong to this player");
       }
     }
+  }
+
+  @Override
+  public void setListener(ModelListener listener) {
+    if (listener == null) {
+      throw new IllegalArgumentException("Listener cannot be null");
+    }
+    this.listeners.add(listener);
   }
 
   @Override
@@ -73,7 +85,30 @@ public class SanguineGame implements SanguineModel {
 
     board = new InfluenceBoard(rows, cols);
     currentPlayer = Player.RED;
+
+    //draws a card for the first player so there is no lag during the game
+    if (!this.getDeck(this.currentPlayer).isEmpty()) {
+      this.drawCardToHand(this.currentPlayer);
+    }
     consecutivePasses = 0;
+  }
+
+  private void notifyTurn() {
+    for (ModelListener listener : this.listeners) {
+      listener.turnChanged(this.currentPlayer);
+    }
+  }
+
+  private void notifyPass() {
+    for (ModelListener listener : this.listeners) {
+      listener.turnPassed(this.currentPlayer);
+    }
+  }
+
+  private void notifyError(String reason) {
+    for (ModelListener listener : this.listeners) {
+      listener.errorOccurrence(reason);
+    }
   }
 
   private void dealDeck(Player player) {
@@ -98,7 +133,9 @@ public class SanguineGame implements SanguineModel {
     this.checkGameStarted();
     //ensures the card is owned by the current player
     if (card.getPlayer() != this.currentPlayer) {
-      throw new IllegalArgumentException("Cannot play opponent's card");
+      String message = "Cannot play opponent's card";
+      this.notifyError(message);
+      throw new IllegalArgumentException(message);
     }
     //tries to place a card
     board.playCard(card, row, col);
@@ -107,6 +144,8 @@ public class SanguineGame implements SanguineModel {
     this.removeCardFromHand(this.currentPlayer, card);
     //switches whose turn it is
     this.switchPlayer();
+    //notifies the controller about the turn switch
+    this.notifyTurn();
     //draws a card at the start of the next player's turn
     if (!this.getDeck(this.currentPlayer).isEmpty()) {
       this.drawCardToHand(this.currentPlayer);
@@ -183,7 +222,14 @@ public class SanguineGame implements SanguineModel {
     }
     //marks down who made the pass
     this.lastPlayerWhoPassed = this.currentPlayer;
+    //notifies the controller about the pass
+    this.notifyPass();
+    //switches the player turn
     this.switchPlayer();
+    //ensures that the controller is only notified about turn switches up until the game is over
+    if (!this.gameOver()) {
+      this.notifyTurn();
+    }
     //since the turn is being switched, a card is drawn for the next player
     if (!this.getDeck(this.currentPlayer).isEmpty()) {
       this.drawCardToHand(this.currentPlayer);

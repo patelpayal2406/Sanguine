@@ -6,6 +6,7 @@ import sanguine.model.Board;
 import sanguine.model.Card;
 import sanguine.model.Player;
 import sanguine.model.SanguineModel;
+import sanguine.view.ModelListener;
 
 /**
  * A mock implementation of the SanguineModel interface for testing purposes.
@@ -109,6 +110,11 @@ public class MockSanguineModel implements SanguineModel {
   @Override
   public void pass() {
     log.add("pass");
+  }
+
+  @Override
+  public void setListener(ModelListener listener) {
+    log.add("setListener:" + listener);
   }
 
   @Override

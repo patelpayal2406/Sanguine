@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="sanguine.model.SanguineModelTests" tests="21" skipped="0" failures="0" errors="0" timestamp="2025-12-02T21:03:18.834Z" hostname="MacBook-3.local" time="0.005">
+<testsuite name="sanguine.model.SanguineModelTests" tests="21" skipped="0" failures="0" errors="0" timestamp="2025-12-05T15:48:29.362Z" hostname="MacBook-3.local" time="0.005">
   <properties/>
-  <testcase name="testSwitchPlayer" classname="sanguine.model.SanguineModelTests" time="0.001"/>
+  <testcase name="testSwitchPlayer" classname="sanguine.model.SanguineModelTests" time="0.0"/>
   <testcase name="testGetBoard" classname="sanguine.model.SanguineModelTests" time="0.0"/>
-  <testcase name="testGetCurrentPlayerBeforeGameStart" classname="sanguine.model.SanguineModelTests" time="0.0"/>
+  <testcase name="testGetCurrentPlayerBeforeGameStart" classname="sanguine.model.SanguineModelTests" time="0.001"/>
   <testcase name="testPassFunctionality" classname="sanguine.model.SanguineModelTests" time="0.0"/>
   <testcase name="testStartGameWithInvalidRows" classname="sanguine.model.SanguineModelTests" time="0.0"/>
   <testcase name="testPlayCardBeforeGameStart" classname="sanguine.model.SanguineModelTests" time="0.0"/>
-  <testcase name="testStartGameTwice" classname="sanguine.model.SanguineModelTests" time="0.001"/>
-  <testcase name="testStartGameWithTooFewColumns" classname="sanguine.model.SanguineModelTests" time="0.001"/>
+  <testcase name="testStartGameTwice" classname="sanguine.model.SanguineModelTests" time="0.0"/>
+  <testcase name="testStartGameWithTooFewColumns" classname="sanguine.model.SanguineModelTests" time="0.0"/>
   <testcase name="testPassResetsAfterPlayCard" classname="sanguine.model.SanguineModelTests" time="0.0"/>
   <testcase name="testGameOverBeforeGameStart" classname="sanguine.model.SanguineModelTests" time="0.0"/>
   <testcase name="testGetWinnerBeforeGameStart" classname="sanguine.model.SanguineModelTests" time="0.0"/>
-  <testcase name="testStartGameWithEvenColumns" classname="sanguine.model.SanguineModelTests" time="0.0"/>
+  <testcase name="testStartGameWithEvenColumns" classname="sanguine.model.SanguineModelTests" time="0.001"/>
   <testcase name="testStartGameWithValidDimensions" classname="sanguine.model.SanguineModelTests" time="0.0"/>
-  <testcase name="testGetBoardBeforeGameStart" classname="sanguine.model.SanguineModelTests" time="0.0"/>
+  <testcase name="testGetBoardBeforeGameStart" classname="sanguine.model.SanguineModelTests" time="0.001"/>
   <testcase name="testGameOverReturnsFalse" classname="sanguine.model.SanguineModelTests" time="0.0"/>
-  <testcase name="testGetWinnerReturnsNullBeforeGameOver" classname="sanguine.model.SanguineModelTests" time="0.001"/>
+  <testcase name="testGetWinnerReturnsNullBeforeGameOver" classname="sanguine.model.SanguineModelTests" time="0.0"/>
   <testcase name="testPlayCardWrongPlayer" classname="sanguine.model.SanguineModelTests" time="0.0"/>
   <testcase name="testGetWinnerAfterTiedGame" classname="sanguine.model.SanguineModelTests" time="0.0"/>
   <testcase name="testGameOverAfterTwoPasses" classname="sanguine.model.SanguineModelTests" time="0.0"/>
-  <testcase name="testConstructorWithMismatchedPlayerInRedDeck" classname="sanguine.model.SanguineModelTests" time="0.001"/>
+  <testcase name="testConstructorWithMismatchedPlayerInRedDeck" classname="sanguine.model.SanguineModelTests" time="0.0"/>
   <testcase name="testSwitchPlayerBeforeGameStart" classname="sanguine.model.SanguineModelTests" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

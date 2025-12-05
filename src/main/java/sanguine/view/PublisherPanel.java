@@ -12,7 +12,7 @@ public interface PublisherPanel {
    *
    * @param listener a mouse click feature listen
    */
-  void setListener(FeatureListener listener);
+  void setListener(FeatureListener listener, SanguineView view);
 
   /**
    * Updates the panel dimensions based on the initialized parameters of the game.

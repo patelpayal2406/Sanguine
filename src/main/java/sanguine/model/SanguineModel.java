@@ -1,5 +1,7 @@
 package sanguine.model;
 
+import sanguine.view.ModelListener;
+
 /**
  * Represents the model interface of Sanguine that only contains mutator methods.
  */
@@ -34,4 +36,11 @@ public interface SanguineModel extends ReadonlySanguineModel {
    * Game ends if both players pass consecutively.
    */
   void pass();
+
+  /**
+   * Sets the listener for each player's model and controller pub-sub.
+   *
+   * @param listener a listener with model-status notification abilities
+   */
+  void setListener(ModelListener listener);
 }

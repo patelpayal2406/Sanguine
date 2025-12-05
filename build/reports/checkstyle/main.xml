@@ -11,7 +11,6 @@
 <file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/controller/FillFirstStrategy.java">
 </file>
 <file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/controller/SanguineController.java">
-<error line="19" column="3" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
 </file>
 <file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/controller/ControlTheBoardStrategy.java">
 </file>
@@ -45,13 +44,11 @@
 </file>
 <file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/model/InfluenceBoard.java">
 </file>
+<file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/view/ModelListener.java">
+</file>
 <file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/view/SanguineView.java">
-<error line="49" column="3" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="51" column="3" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
 </file>
 <file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/view/FeatureListener.java">
-<error line="26" column="3" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="28" column="3" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
 </file>
 <file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/view/AbstractPanel.java">
 </file>
@@ -62,9 +59,6 @@
 <file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/view/BoardPanel.java">
 </file>
 <file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/view/SanguineFrame.java">
-<error line="7" column="1" severity="warning" message="Extra separation in import group before &apos;javax.swing.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.CustomImportOrderCheck"/>
-<error line="7" column="19" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - javax.swing.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
-<error line="9" column="1" severity="warning" message="Extra separation in import group before &apos;sanguine.model.Player&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.CustomImportOrderCheck"/>
 </file>
 <file name="/Users/Payal/Desktop/College/f25-hw07-groups-group-placid-bread-6134/src/main/java/sanguine/view/PublisherPanel.java">
 </file>

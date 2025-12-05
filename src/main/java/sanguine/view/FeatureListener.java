@@ -23,7 +23,19 @@ public interface FeatureListener {
    */
   void selectCard(int cardIndex, Player player);
 
+  /**
+   * If both a cell and card are selected and the player presses the 'c' key, the controller
+   * calls on the model's playCard method.
+   *
+   * @param player the player who confirmed the move
+   */
   void confirmMove(Player player);
 
+  /**
+   * If a player presses 'p' to pass their turn, this controller method calls
+   * on the model's pass method.
+   *
+   * @param player the player that passed their turn
+   */
   void passTurn(Player player);
 }
