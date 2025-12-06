@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="sanguine.model.InfluenceCardTests" tests="14" skipped="0" failures="0" errors="0" timestamp="2025-12-02T21:03:18.827Z" hostname="MacBook-3.local" time="0.003">
+<testsuite name="sanguine.model.InfluenceCardTests" tests="14" skipped="0" failures="0" errors="0" timestamp="2025-12-05T23:06:26.769Z" hostname="MacBook-3.local" time="0.002">
   <properties/>
   <testcase name="testInfluenceWithNullCoordinate" classname="sanguine.model.InfluenceCardTests" time="0.0"/>
   <testcase name="testEmptyInfluences" classname="sanguine.model.InfluenceCardTests" time="0.0"/>
   <testcase name="testNullInfluences" classname="sanguine.model.InfluenceCardTests" time="0.0"/>
-  <testcase name="testNullName" classname="sanguine.model.InfluenceCardTests" time="0.0"/>
+  <testcase name="testNullName" classname="sanguine.model.InfluenceCardTests" time="0.001"/>
   <testcase name="testEmptyName" classname="sanguine.model.InfluenceCardTests" time="0.0"/>
   <testcase name="testBluePlayerMirrorsInfluence" classname="sanguine.model.InfluenceCardTests" time="0.0"/>
   <testcase name="testZeroValue" classname="sanguine.model.InfluenceCardTests" time="0.0"/>
-  <testcase name="testTooHighCost" classname="sanguine.model.InfluenceCardTests" time="0.001"/>
+  <testcase name="testTooHighCost" classname="sanguine.model.InfluenceCardTests" time="0.0"/>
   <testcase name="testNullPlayer" classname="sanguine.model.InfluenceCardTests" time="0.0"/>
   <testcase name="testNegativeValue" classname="sanguine.model.InfluenceCardTests" time="0.0"/>
   <testcase name="testZeroCost" classname="sanguine.model.InfluenceCardTests" time="0.0"/>
-  <testcase name="testNegativeCost" classname="sanguine.model.InfluenceCardTests" time="0.0"/>
-  <testcase name="testInfluenceAtCenter" classname="sanguine.model.InfluenceCardTests" time="0.001"/>
+  <testcase name="testNegativeCost" classname="sanguine.model.InfluenceCardTests" time="0.001"/>
+  <testcase name="testInfluenceAtCenter" classname="sanguine.model.InfluenceCardTests" time="0.0"/>
   <testcase name="testValidCardCreation" classname="sanguine.model.InfluenceCardTests" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

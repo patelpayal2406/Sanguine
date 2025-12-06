@@ -3,6 +3,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import sanguine.view.ModelListener;
 
 /**
  * Represents the model of the game where a deck of cards
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public class SanguineGame implements SanguineModel {
   private Board board;
-  private Player currentPlayer;
+  private int handSize;
 
   private final List&lt;Card&gt; redDeck;
   private final List&lt;Card&gt; blueDeck;
@@ -18,9 +19,11 @@ public class SanguineGame implements SanguineModel {
   private final List&lt;Card&gt; blueHand;
   // INVARIANT: each player's deck and hand must contain cards that only belong to them
 
-  private int handSize;
+  private Player currentPlayer;
   private Player lastPlayerWhoPassed;
   private int consecutivePasses;
+
+  private final List&lt;ModelListener&gt; listeners;
 
   /**
    * Creates the deck of influence cards for each player to use.
@@ -28,182 +31,278 @@ public class SanguineGame implements SanguineModel {
    * @param redDeck  a list of influence cards for the red player
    * @param blueDeck a list of influence cards for the blue player
    */
-<span class="fc" id="L31">  public SanguineGame(List&lt;Card&gt; redDeck, List&lt;Card&gt; blueDeck) {</span>
+<span class="fc" id="L34">  public SanguineGame(List&lt;Card&gt; redDeck, List&lt;Card&gt; blueDeck) {</span>
     //ensures a deck only contains all cards for one player
-<span class="fc" id="L33">    this.checkCorrectPlayers(redDeck, Player.RED);</span>
-<span class="fc" id="L34">    this.checkCorrectPlayers(blueDeck, Player.BLUE);</span>
-<span class="fc" id="L35">    this.redDeck = redDeck;</span>
-<span class="fc" id="L36">    this.blueDeck = blueDeck;</span>
-<span class="fc" id="L37">    this.redHand = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L38">    this.blueHand = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L39">    this.handSize = 0;</span>
-<span class="fc" id="L40">    this.consecutivePasses = 0;</span>
-<span class="fc" id="L41">    this.lastPlayerWhoPassed = null;</span>
-<span class="fc" id="L42">  }</span>
+<span class="fc" id="L36">    this.checkCorrectPlayers(redDeck, Player.RED);</span>
+<span class="fc" id="L37">    this.checkCorrectPlayers(blueDeck, Player.BLUE);</span>
+<span class="fc" id="L38">    this.redDeck = redDeck;</span>
+<span class="fc" id="L39">    this.blueDeck = blueDeck;</span>
+<span class="fc" id="L40">    this.redHand = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L41">    this.blueHand = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L42">    this.handSize = 0;</span>
+<span class="fc" id="L43">    this.consecutivePasses = 0;</span>
+<span class="fc" id="L44">    this.lastPlayerWhoPassed = null;</span>
+<span class="fc" id="L45">    this.listeners = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L46">  }</span>
 
   private void checkCorrectPlayers(List&lt;Card&gt; deck, Player player) {
-<span class="fc bfc" id="L45" title="All 2 branches covered.">    for (Card card : deck) {</span>
-<span class="fc bfc" id="L46" title="All 2 branches covered.">      if (card.getPlayer() != player) {</span>
-<span class="fc" id="L47">        throw new IllegalArgumentException(&quot;Card doesn't belong to this player&quot;);</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">    for (Card card : deck) {</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">      if (card.getPlayer() != player) {</span>
+<span class="fc" id="L51">        throw new IllegalArgumentException(&quot;Card doesn't belong to this player&quot;);</span>
       }
-<span class="fc" id="L49">    }</span>
-<span class="fc" id="L50">  }</span>
+<span class="fc" id="L53">    }</span>
+<span class="fc" id="L54">  }</span>
+
+  @Override
+  public void setListener(ModelListener listener) {
+<span class="nc bnc" id="L58" title="All 2 branches missed.">    if (listener == null) {</span>
+<span class="nc" id="L59">      throw new IllegalArgumentException(&quot;Listener cannot be null&quot;);</span>
+    }
+<span class="nc" id="L61">    this.listeners.add(listener);</span>
+<span class="nc" id="L62">  }</span>
 
   @Override
   public void startGame(int rows, int cols, int handSize, boolean shuffled) {
-<span class="fc bfc" id="L54" title="All 2 branches covered.">    if (board != null) {</span>
-<span class="fc" id="L55">      throw new IllegalStateException(&quot;Game has already been started&quot;);</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">    if (board != null) {</span>
+<span class="fc" id="L67">      throw new IllegalStateException(&quot;Game has already been started&quot;);</span>
     }
-    //throws an error if there are not enough cards in a deck to possible play on every cells
+    //throws an error if there are not enough cards in a deck to possible play on every cell
     //of the customized board
-<span class="pc bpc" id="L59" title="1 of 2 branches missed.">    if (redDeck.size() &lt; rows * cols) {</span>
-<span class="nc" id="L60">      throw new IllegalArgumentException(&quot;Not enough cards to play on board size&quot;);</span>
+<span class="pc bpc" id="L71" title="1 of 2 branches missed.">    if (redDeck.size() &lt; rows * cols) {</span>
+<span class="nc" id="L72">      throw new IllegalArgumentException(&quot;Not enough cards to play on board size&quot;);</span>
     }
 
     //shuffles the deck if parameter is true
-<span class="pc bpc" id="L64" title="1 of 2 branches missed.">    if (shuffled) {</span>
-<span class="nc" id="L65">      Collections.shuffle(this.redDeck);</span>
-<span class="nc" id="L66">      Collections.shuffle(this.blueDeck);</span>
+<span class="pc bpc" id="L76" title="1 of 2 branches missed.">    if (shuffled) {</span>
+<span class="nc" id="L77">      Collections.shuffle(this.redDeck);</span>
+<span class="nc" id="L78">      Collections.shuffle(this.blueDeck);</span>
     }
-<span class="fc" id="L68">    this.handSize = handSize;</span>
+<span class="fc" id="L80">    this.handSize = handSize;</span>
 
     // Deal decks to hands
-<span class="fc" id="L71">    this.dealDeck(Player.RED);</span>
-<span class="fc" id="L72">    this.dealDeck(Player.BLUE);</span>
+<span class="fc" id="L83">    this.dealDeck(Player.RED);</span>
+<span class="fc" id="L84">    this.dealDeck(Player.BLUE);</span>
 
-<span class="fc" id="L74">    board = new InfluenceBoard(rows, cols);</span>
-<span class="fc" id="L75">    currentPlayer = Player.RED;</span>
-<span class="fc" id="L76">    consecutivePasses = 0;</span>
-<span class="fc" id="L77">  }</span>
+<span class="fc" id="L86">    board = new InfluenceBoard(rows, cols);</span>
+<span class="fc" id="L87">    currentPlayer = Player.RED;</span>
+
+    //draws a card for the first player so there is no lag during the game
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">    if (!this.getDeck(this.currentPlayer).isEmpty()) {</span>
+<span class="fc" id="L91">      this.drawCardToHand(this.currentPlayer);</span>
+    }
+<span class="fc" id="L93">    consecutivePasses = 0;</span>
+<span class="fc" id="L94">  }</span>
+
+  private void notifyTurn() {
+<span class="pc bpc" id="L97" title="1 of 2 branches missed.">    for (ModelListener listener : this.listeners) {</span>
+<span class="nc" id="L98">      listener.turnChanged(this.currentPlayer);</span>
+<span class="nc" id="L99">    }</span>
+<span class="fc" id="L100">  }</span>
+
+  private void notifyPass() {
+<span class="pc bpc" id="L103" title="1 of 2 branches missed.">    for (ModelListener listener : this.listeners) {</span>
+<span class="nc" id="L104">      listener.turnPassed(this.currentPlayer);</span>
+<span class="nc" id="L105">    }</span>
+<span class="fc" id="L106">  }</span>
+
+  private void notifyError(String reason) {
+<span class="pc bpc" id="L109" title="1 of 2 branches missed.">    for (ModelListener listener : this.listeners) {</span>
+<span class="nc" id="L110">      listener.errorOccurrence(reason);</span>
+<span class="nc" id="L111">    }</span>
+<span class="fc" id="L112">  }</span>
 
   private void dealDeck(Player player) {
-<span class="pc bpc" id="L80" title="1 of 2 branches missed.">    if (this.handSize &gt; (this.getDeck(player).size() / 3.0)) {</span>
-<span class="nc" id="L81">      throw new IllegalArgumentException(&quot;Hand size cannot be greater than &quot;</span>
-<span class="nc" id="L82">              + &quot;1/3 the deck size for &quot; + player.toString());</span>
+<span class="pc bpc" id="L115" title="1 of 2 branches missed.">    if (this.handSize &gt; (this.getDeck(player).size() / 3.0)) {</span>
+<span class="nc" id="L116">      throw new IllegalArgumentException(&quot;Hand size cannot be greater than &quot;</span>
+<span class="nc" id="L117">              + &quot;1/3 the deck size for &quot; + player.toString());</span>
     }
     //initially grabs the first 5 cards of the deck
-<span class="fc bfc" id="L85" title="All 2 branches covered.">    for (int i = 0; i &lt; handSize; i++) {</span>
-<span class="fc" id="L86">      this.drawCardToHand(player);</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">    for (int i = 0; i &lt; handSize; i++) {</span>
+<span class="fc" id="L121">      this.drawCardToHand(player);</span>
     }
-<span class="fc" id="L88">  }</span>
+<span class="fc" id="L123">  }</span>
 
   @Override
   public Player getCurrentPlayer() {
-<span class="fc" id="L92">    this.checkGameStarted();</span>
-<span class="fc" id="L93">    return currentPlayer;</span>
+<span class="fc" id="L127">    this.checkGameStarted();</span>
+<span class="fc" id="L128">    return currentPlayer;</span>
   }
 
   @Override
   public void playCard(Card card, int row, int col) {
-<span class="fc" id="L98">    this.checkGameStarted();</span>
+<span class="fc" id="L133">    this.checkGameStarted();</span>
     //ensures the card is owned by the current player
-<span class="fc bfc" id="L100" title="All 2 branches covered.">    if (card.getPlayer() != this.currentPlayer) {</span>
-<span class="fc" id="L101">      throw new IllegalArgumentException(&quot;Cannot play opponent's card&quot;);</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">    if (card.getPlayer() != this.currentPlayer) {</span>
+<span class="fc" id="L136">      String message = &quot;Cannot play opponent's card&quot;;</span>
+<span class="fc" id="L137">      this.notifyError(message);</span>
+<span class="fc" id="L138">      throw new IllegalArgumentException(message);</span>
     }
     //tries to place a card
-<span class="fc" id="L104">    board.playCard(card, row, col);</span>
-<span class="fc" id="L105">    consecutivePasses = 0;</span>
+<span class="fc" id="L141">    board.playCard(card, row, col);</span>
+<span class="fc" id="L142">    consecutivePasses = 0;</span>
     //removes the card that was placed from the current player's hand
-<span class="fc" id="L107">    this.removeCardFromHand(this.currentPlayer, card);</span>
+<span class="fc" id="L144">    this.removeCardFromHand(this.currentPlayer, card);</span>
     //switches whose turn it is
-<span class="fc" id="L109">    this.switchPlayer();</span>
+<span class="fc" id="L146">    this.switchPlayer();</span>
+    //notifies the controller about the turn switch
+<span class="fc" id="L148">    this.notifyTurn();</span>
     //draws a card at the start of the next player's turn
-<span class="pc bpc" id="L111" title="1 of 2 branches missed.">    if (!this.getDeck(this.currentPlayer).isEmpty()) {</span>
-<span class="fc" id="L112">      this.drawCardToHand(this.currentPlayer);</span>
+<span class="pc bpc" id="L150" title="1 of 2 branches missed.">    if (!this.getDeck(this.currentPlayer).isEmpty()) {</span>
+<span class="fc" id="L151">      this.drawCardToHand(this.currentPlayer);</span>
     }
-<span class="fc" id="L114">  }</span>
+<span class="fc" id="L153">  }</span>
 
   private void checkGameStarted() throws IllegalStateException {
-<span class="fc bfc" id="L117" title="All 2 branches covered.">    if (board == null) {</span>
-<span class="fc" id="L118">      throw new IllegalStateException(&quot;Game has not started&quot;);</span>
+<span class="fc bfc" id="L156" title="All 2 branches covered.">    if (board == null) {</span>
+<span class="fc" id="L157">      throw new IllegalStateException(&quot;Game has not started&quot;);</span>
     }
-<span class="fc" id="L120">  }</span>
+<span class="fc" id="L159">  }</span>
 
   @Override
   public void switchPlayer() {
-<span class="fc" id="L124">    this.checkGameStarted();</span>
-<span class="fc bfc" id="L125" title="All 2 branches covered.">    this.currentPlayer = this.currentPlayer == Player.RED ? Player.BLUE : Player.RED;</span>
-<span class="fc" id="L126">  }</span>
+<span class="fc" id="L163">    this.checkGameStarted();</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">    this.currentPlayer = this.currentPlayer == Player.RED ? Player.BLUE : Player.RED;</span>
+<span class="fc" id="L165">  }</span>
 
   private void drawCardToHand(Player player) {
-<span class="fc" id="L129">    this.getPlayerHand(player).add((InfluenceCard) this.removeCardFromDeck(player));</span>
-<span class="fc" id="L130">  }</span>
+<span class="fc" id="L168">    this.getPlayerHand(player).add(this.removeCardFromDeck(player));</span>
+<span class="fc" id="L169">  }</span>
 
   private Card removeCardFromDeck(Player player) {
-<span class="fc" id="L133">    return this.getDeck(player).removeFirst();</span>
+<span class="fc" id="L172">    return this.getDeck(player).removeFirst();</span>
   }
 
   private void removeCardFromHand(Player player, Card card) {
-<span class="fc" id="L137">    this.getPlayerHand(player).remove(card);</span>
-<span class="fc" id="L138">  }</span>
+<span class="fc" id="L176">    this.getPlayerHand(player).remove(card);</span>
+<span class="fc" id="L177">  }</span>
 
   @Override
   public boolean gameOver() {
-<span class="fc" id="L142">    this.checkGameStarted();</span>
+<span class="fc" id="L181">    this.checkGameStarted();</span>
     //if the board contains any cell other than value cells, then the board is not full
-<span class="fc" id="L144">    boolean boardFull = true;</span>
-<span class="fc bfc" id="L145" title="All 2 branches covered.">    for (List&lt;Cell&gt; row : this.getBoard().getCells()) {</span>
-<span class="pc bpc" id="L146" title="1 of 2 branches missed.">      for (Cell cell : row) {</span>
-<span class="fc bfc" id="L147" title="All 2 branches covered.">        if (!(cell instanceof ValueCell)) {</span>
-<span class="fc" id="L148">          boardFull = false;</span>
-<span class="fc" id="L149">          break;</span>
+<span class="fc" id="L183">    boolean boardFull = true;</span>
+<span class="fc bfc" id="L184" title="All 2 branches covered.">    for (List&lt;Cell&gt; row : this.getBoard().getCells()) {</span>
+<span class="pc bpc" id="L185" title="1 of 2 branches missed.">      for (Cell cell : row) {</span>
+<span class="fc bfc" id="L186" title="All 2 branches covered.">        if (!(cell instanceof ValueCell)) {</span>
+<span class="fc" id="L187">          boardFull = false;</span>
+<span class="fc" id="L188">          break;</span>
         }
-<span class="fc" id="L151">      }</span>
-<span class="fc" id="L152">    }</span>
+<span class="fc" id="L190">      }</span>
+<span class="fc" id="L191">    }</span>
     //game is over if consecutive passes from both players were made or board is full
-<span class="pc bpc" id="L154" title="1 of 4 branches missed.">    return consecutivePasses &gt;= 2 || boardFull;</span>
+<span class="pc bpc" id="L193" title="1 of 4 branches missed.">    return consecutivePasses &gt;= 2 || boardFull;</span>
   }
 
   @Override
   public Player getWinner() {
-<span class="fc" id="L159">    this.checkGameStarted();</span>
-<span class="fc bfc" id="L160" title="All 2 branches covered.">    if (!gameOver()) {</span>
-<span class="fc" id="L161">      return null;</span>
+<span class="fc" id="L198">    this.checkGameStarted();</span>
+<span class="fc bfc" id="L199" title="All 2 branches covered.">    if (!gameOver()) {</span>
+<span class="fc" id="L200">      return null;</span>
     }
-<span class="fc" id="L163">    int redTotal = board.getTotalScore(Player.RED);</span>
-<span class="fc" id="L164">    int blueTotal = board.getTotalScore(Player.BLUE);</span>
+<span class="fc" id="L202">    int redTotal = this.getTotalScore(Player.RED);</span>
+<span class="fc" id="L203">    int blueTotal = this.getTotalScore(Player.BLUE);</span>
     //compares the total row scores and returns the player with the highest number
-<span class="fc bfc" id="L166" title="All 2 branches covered.">    if (redTotal &gt; blueTotal) {</span>
-<span class="fc" id="L167">      return Player.RED;</span>
-<span class="pc bpc" id="L168" title="1 of 2 branches missed.">    } else if (blueTotal &gt; redTotal) {</span>
-<span class="nc" id="L169">      return Player.BLUE;</span>
+<span class="fc bfc" id="L205" title="All 2 branches covered.">    if (redTotal &gt; blueTotal) {</span>
+<span class="fc" id="L206">      return Player.RED;</span>
+<span class="pc bpc" id="L207" title="1 of 2 branches missed.">    } else if (blueTotal &gt; redTotal) {</span>
+<span class="nc" id="L208">      return Player.BLUE;</span>
     } else {
-<span class="fc" id="L171">      return null;</span>
+<span class="fc" id="L210">      return null;</span>
     }
   }
 
   @Override
   public void pass() {
-<span class="fc" id="L177">    this.checkGameStarted();</span>
+<span class="fc" id="L216">    this.checkGameStarted();</span>
     //consecutive passes only increases if the pass was made by two different people
-<span class="fc bfc" id="L179" title="All 2 branches covered.">    if (lastPlayerWhoPassed == this.currentPlayer) {</span>
-<span class="fc" id="L180">      consecutivePasses = 1;</span>
+<span class="fc bfc" id="L218" title="All 2 branches covered.">    if (lastPlayerWhoPassed == this.currentPlayer) {</span>
+<span class="fc" id="L219">      consecutivePasses = 1;</span>
     } else {
-<span class="fc" id="L182">      consecutivePasses++;</span>
+<span class="fc" id="L221">      consecutivePasses++;</span>
     }
     //marks down who made the pass
-<span class="fc" id="L185">    this.lastPlayerWhoPassed = this.currentPlayer;</span>
-<span class="fc" id="L186">    this.switchPlayer();</span>
-    //since the turn is being switched, a card is drawn for the next player
-<span class="pc bpc" id="L188" title="1 of 2 branches missed.">    if (!this.getDeck(this.currentPlayer).isEmpty()) {</span>
-<span class="fc" id="L189">      this.drawCardToHand(this.currentPlayer);</span>
+<span class="fc" id="L224">    this.lastPlayerWhoPassed = this.currentPlayer;</span>
+    //notifies the controller about the pass
+<span class="fc" id="L226">    this.notifyPass();</span>
+    //switches the player turn
+<span class="fc" id="L228">    this.switchPlayer();</span>
+    //ensures that the controller is only notified about turn switches up until the game is over
+<span class="fc bfc" id="L230" title="All 2 branches covered.">    if (!this.gameOver()) {</span>
+<span class="fc" id="L231">      this.notifyTurn();</span>
     }
-<span class="fc" id="L191">  }</span>
+    //since the turn is being switched, a card is drawn for the next player
+<span class="pc bpc" id="L234" title="1 of 2 branches missed.">    if (!this.getDeck(this.currentPlayer).isEmpty()) {</span>
+<span class="fc" id="L235">      this.drawCardToHand(this.currentPlayer);</span>
+    }
+<span class="fc" id="L237">  }</span>
 
   @Override
   public Board getBoard() {
-<span class="fc" id="L195">    this.checkGameStarted();</span>
-<span class="fc" id="L196">    return board;</span>
+<span class="fc" id="L241">    this.checkGameStarted();</span>
+<span class="fc" id="L242">    return board;</span>
   }
 
   @Override
   public List&lt;Card&gt; getDeck(Player player) {
-<span class="fc bfc" id="L201" title="All 2 branches covered.">    return player == Player.RED ? this.redDeck : this.blueDeck;</span>
+<span class="fc bfc" id="L247" title="All 2 branches covered.">    return player == Player.RED ? this.redDeck : this.blueDeck;</span>
   }
 
   @Override
   public List&lt;Card&gt; getPlayerHand(Player player) {
-<span class="fc bfc" id="L206" title="All 2 branches covered.">    return player == Player.RED ? this.redHand : this.blueHand;</span>
+<span class="fc bfc" id="L252" title="All 2 branches covered.">    return player == Player.RED ? this.redHand : this.blueHand;</span>
+  }
+
+  @Override
+  public Cell getCell(int row, int column) {
+<span class="fc" id="L257">    return this.board.getCell(row, column);</span>
+  }
+
+  @Override
+  public void checkValidMove(Cell currentCell, Card card) {
+<span class="nc" id="L262">    this.board.checkValidMove(currentCell, card);</span>
+<span class="nc" id="L263">  }</span>
+
+  @Override
+  public int getTotalScore(Player player) {
+<span class="fc" id="L267">    return this.board.getTotalScore(player);</span>
+  }
+
+  @Override
+  public int getRowScore(int row, Player player) {
+<span class="fc" id="L272">    return this.board.getRowScore(row, player);</span>
+  }
+
+  @Override
+  public Player getCellOwner(int row, int col) {
+<span class="fc bfc" id="L277" title="All 2 branches covered.">    if (this.getCell(row, col) == null) {</span>
+<span class="fc" id="L278">      return null;</span>
+    }
+<span class="fc" id="L280">    return this.getCell(row, col).getPlayer();</span>
+  }
+
+  @Override
+  public String getCellContents(int row, int col) {
+    String cellType;
+<span class="fc bfc" id="L286" title="All 2 branches covered.">    if (this.getCell(row, col) instanceof ValueCell) {</span>
+<span class="fc" id="L287">      cellType = &quot;ValueCell &quot;;</span>
+<span class="fc bfc" id="L288" title="All 2 branches covered.">    } else if (this.getCell(row, col) instanceof PawnCell) {</span>
+<span class="fc" id="L289">      cellType = &quot;PawnCell &quot;;</span>
+    } else {
+<span class="fc" id="L291">      return &quot;null cell&quot;;</span>
+    }
+<span class="fc" id="L293">    String cellOwner = this.getCellOwner(row, col).toString();</span>
+<span class="fc" id="L294">    int cellValue = this.board.getCell(row, col).getValue();</span>
+<span class="fc" id="L295">    return cellType + cellOwner + &quot; &quot; + cellValue;</span>
+  }
+
+  @Override
+  public int getNumRows() {
+<span class="fc" id="L300">    return this.board.getCells().size();</span>
+  }
+
+  @Override
+  public int getNumCols() {
+<span class="fc" id="L305">    return this.board.getCells().get(0).size();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

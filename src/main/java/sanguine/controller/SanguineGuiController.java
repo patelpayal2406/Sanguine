@@ -2,9 +2,8 @@ package sanguine.controller;
 
 import sanguine.model.Player;
 import sanguine.model.SanguineModel;
-import sanguine.view.BoardPanel;
 import sanguine.view.FeatureListener;
-import sanguine.view.HandPanel;
+import sanguine.view.ModelListener;
 import sanguine.view.PublisherPanel;
 import sanguine.view.SanguineView;
 
@@ -12,7 +11,7 @@ import sanguine.view.SanguineView;
  * Controller class that takes the user inputs and sends and receives data
  * from the model and the view.
  */
-public class SanguineGuiController implements SanguineController, FeatureListener {
+public class SanguineGuiController implements SanguineController, FeatureListener, ModelListener {
   private final SanguineView playerView;
   private final SanguineModel model;
   private boolean cellWasSelected;
@@ -20,14 +19,16 @@ public class SanguineGuiController implements SanguineController, FeatureListene
   private int selectedCellRow;
   private int selectedCellCol;
   private int selectedCardIndex;
+  private final Player controllerPlayer;
 
   /**
    * Initializes the panels for the board and card hands and ensures there are no selections yet.
    *
    * @param playerView the view frame for a specified player
    * @param model the Sanguine model
+   * @param player the player of this controller
    */
-  public SanguineGuiController(SanguineView playerView, SanguineModel model) {
+  public SanguineGuiController(SanguineView playerView, SanguineModel model, Player player) {
     if (playerView == null || model == null) {
       throw new IllegalArgumentException("View and model cannot be null");
     }
@@ -35,6 +36,9 @@ public class SanguineGuiController implements SanguineController, FeatureListene
     //adds the ability for feature listening to the frame
     this.playerView.setListener(this);
     this.model = model;
+    //adds the ability for listening to the model
+    this.model.setListener(this);
+    this.controllerPlayer = player;
     this.cellWasSelected = false;
     this.cardWasSelected = false;
     this.selectedCellRow = -1;
@@ -54,20 +58,25 @@ public class SanguineGuiController implements SanguineController, FeatureListene
     this.playerView.refreshSize(rows, cols, handSize);
     //makes the frame visible as soon as it is adjusted
     this.playerView.makeVisible();
+    //shows the first player's turn
+    if (Player.RED == this.controllerPlayer) {
+      this.playerView.showTurn(Player.RED);
+    }
   }
 
   @Override
   public void checkGameOver() {
     if (model.gameOver()) {
-      this.playerView.endGame();
-      this.playerView.showWinner(model.getWinner());
+      this.gameOver(this.model.getWinner());
     }
   }
 
   @Override
   public void selectBoardCell(int row, int col, Player player) {
     if (player != model.getCurrentPlayer()) {
-      throw new IllegalArgumentException("Player is not the current player");
+      String message = "Player " + player + " is not currently playing";
+      this.playerView.showError(message);
+      throw new IllegalStateException(message);
     }
     PublisherPanel boardPanel = this.playerView.getBoardPanel();
     boolean isSameCell = this.selectedCellRow == row
@@ -86,12 +95,15 @@ public class SanguineGuiController implements SanguineController, FeatureListene
       this.selectedCellCol = col;
       boardPanel.highlightCell(row, col, player, true);
     }
+    this.playerView.refresh();
   }
 
   @Override
   public void selectCard(int cardIndex, Player player) {
     if (player != model.getCurrentPlayer()) {
-      throw new IllegalArgumentException("Player is not the current player");
+      String message = "Player " + player + " is not currently playing";
+      this.playerView.showError(message);
+      throw new IllegalStateException(message);
     }
     PublisherPanel handPanel = this.playerView.getHandPanel();
     boolean isSameCard = this.selectedCardIndex == cardIndex;
@@ -107,20 +119,23 @@ public class SanguineGuiController implements SanguineController, FeatureListene
       this.selectedCardIndex = cardIndex;
       handPanel.highlightCard(cardIndex, player, true);
     }
+    this.playerView.refresh();
   }
 
   @Override
   public void confirmMove(Player player) {
     if (!cellWasSelected || !cardWasSelected) {
-      System.out.println("Please select both a cell and card");
+      this.playerView.showError("Please select both a cell and card");
       return;
     }
-    model.playCard(model.getPlayerHand(player).get(this.selectedCardIndex),
-            this.selectedCellRow, this.selectedCellCol);
-    playerView.refresh();
-    SanguineView red = playerView;
-    red.getBoardPanel().highlightCell(selectedCellRow, selectedCellCol, player, false);
-    red.getHandPanel().highlightCard(selectedCardIndex, player, false);
+    try {
+      model.playCard(model.getPlayerHand(player).get(this.selectedCardIndex),
+              this.selectedCellRow, this.selectedCellCol);
+    } catch (IllegalArgumentException e) {
+      this.playerView.showError(e.getMessage());
+    }
+    this.playerView.getBoardPanel().highlightCell(selectedCellRow, selectedCellCol, player, false);
+    this.playerView.getHandPanel().highlightCard(selectedCardIndex, player, false);
     cellWasSelected = false;
     cardWasSelected = false;
     selectedCardIndex = -1;
@@ -131,8 +146,34 @@ public class SanguineGuiController implements SanguineController, FeatureListene
 
   @Override
   public void passTurn(Player player) {
-    model.pass();
+    this.model.pass();
     this.playerView.refresh();
     this.checkGameOver();
+  }
+
+  @Override
+  public void turnChanged(Player player) {
+    this.playerView.refresh();
+    if (player == this.controllerPlayer) {
+      this.playerView.showTurn(player);
+    }
+  }
+
+  @Override
+  public void gameOver(Player winner) {
+    this.playerView.endGame(winner);
+  }
+
+  @Override
+  public void errorOccurrence(String reason) {
+    this.playerView.showError(reason);
+  }
+
+  @Override
+  public void turnPassed(Player player) {
+    this.playerView.refresh();
+    if (player == this.controllerPlayer) {
+      this.playerView.showPass(player);
+    }
   }
 }

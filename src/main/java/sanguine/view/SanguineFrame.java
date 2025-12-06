@@ -3,9 +3,8 @@ package sanguine.view;
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
-import javax.swing.*;
-
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import sanguine.model.Player;
 import sanguine.model.ReadonlySanguineModel;
 
@@ -40,9 +39,14 @@ public class SanguineFrame extends JFrame implements SanguineView {
 
   @Override
   public void refresh() {
-    //shows the current player at the top of the frame
-    this.setTitle(this.model.getCurrentPlayer().toString() + "'s Turn");
     this.repaint();
+    String status;
+    if (this.player != model.getCurrentPlayer()) {
+      status = "Waiting";
+    } else {
+      status = "Playing";
+    }
+    this.setTitle(player.toString() + " - " + status);
   }
 
   @Override
@@ -53,8 +57,8 @@ public class SanguineFrame extends JFrame implements SanguineView {
   @Override
   public void setListener(FeatureListener listener) {
     //adds click listeners to each panel
-    this.boardPanel.setListener(listener);
-    this.handPanel.setListener(listener);
+    this.boardPanel.setListener(listener, this);
+    this.handPanel.setListener(listener, this);
     //creates key listeners to connect the controller to the view
     //'c' is for confirming the placement of a selected card on the selected cell
     //'p' is for passing a turn
@@ -103,12 +107,15 @@ public class SanguineFrame extends JFrame implements SanguineView {
   }
 
   @Override
-  public void endGame() {
+  public void endGame(Player winner) {
+    //stops the players from continuing to interact with the view
     this.boardPanel.setEnabled(false);
     this.handPanel.setEnabled(false);
     for (KeyListener kl : this.getKeyListeners()) {
       this.removeKeyListener(kl);
     }
+    //calls the method to send a message about the winner
+    this.showWinner(winner);
   }
 
   @Override
@@ -116,5 +123,20 @@ public class SanguineFrame extends JFrame implements SanguineView {
     String winnerMessage = (winner == null)
             ? "Game over! It's a tie." : "Game over! " + winner + " wins!";
     JOptionPane.showMessageDialog(this, winnerMessage);
+  }
+
+  @Override
+  public void showTurn(Player player) {
+    JOptionPane.showMessageDialog(this, this.model.getCurrentPlayer().toString() + "'s turn");
+  }
+
+  @Override
+  public void showError(String reason) {
+    JOptionPane.showMessageDialog(this, reason);
+  }
+
+  @Override
+  public void showPass(Player player) {
+    JOptionPane.showMessageDialog(this, player.toString() + " passed");
   }
 }

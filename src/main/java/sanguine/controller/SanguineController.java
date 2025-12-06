@@ -16,5 +16,10 @@ public interface SanguineController {
    */
   void playGame(int rows, int cols, int handSize, boolean shuffle);
 
+  /**
+   * This method initiates the sequence for displaying game over notification
+   * if the model says the game is over.
+   */
   void checkGameOver();
+
 }

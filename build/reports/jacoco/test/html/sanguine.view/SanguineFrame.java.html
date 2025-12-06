@@ -3,9 +3,8 @@
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
-import javax.swing.*;
-
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import sanguine.model.Player;
 import sanguine.model.ReadonlySanguineModel;
 
@@ -24,98 +23,121 @@ public class SanguineFrame extends JFrame implements SanguineView {
    * @param model viewable only Sanguine
    * @param player the player of the frame
    */
-<span class="nc" id="L27">  public SanguineFrame(ReadonlySanguineModel model, Player player) {</span>
-<span class="nc" id="L28">    this.setDefaultCloseOperation(EXIT_ON_CLOSE);</span>
-<span class="nc" id="L29">    this.model = model;</span>
-<span class="nc" id="L30">    this.player = player;</span>
+<span class="nc" id="L26">  public SanguineFrame(ReadonlySanguineModel model, Player player) {</span>
+<span class="nc" id="L27">    this.setDefaultCloseOperation(EXIT_ON_CLOSE);</span>
+<span class="nc" id="L28">    this.model = model;</span>
+<span class="nc" id="L29">    this.player = player;</span>
     //initializes the two panels for each frame
-<span class="nc" id="L32">    this.boardPanel = new BoardPanel(this.model, this.player);</span>
-<span class="nc" id="L33">    this.handPanel = new HandPanel(this.model, this.player);</span>
-<span class="nc" id="L34">    this.setLayout(new BorderLayout());</span>
+<span class="nc" id="L31">    this.boardPanel = new BoardPanel(this.model, this.player);</span>
+<span class="nc" id="L32">    this.handPanel = new HandPanel(this.model, this.player);</span>
+<span class="nc" id="L33">    this.setLayout(new BorderLayout());</span>
     //panels are placed on top of each other
-<span class="nc" id="L36">    this.add(boardPanel, BorderLayout.NORTH);</span>
-<span class="nc" id="L37">    this.add(handPanel, BorderLayout.SOUTH);</span>
-<span class="nc" id="L38">    this.pack();</span>
-<span class="nc" id="L39">  }</span>
+<span class="nc" id="L35">    this.add(boardPanel, BorderLayout.NORTH);</span>
+<span class="nc" id="L36">    this.add(handPanel, BorderLayout.SOUTH);</span>
+<span class="nc" id="L37">    this.pack();</span>
+<span class="nc" id="L38">  }</span>
 
   @Override
   public void refresh() {
-    //shows the current player at the top of the frame
-<span class="nc" id="L44">    this.setTitle(this.model.getCurrentPlayer().toString() + &quot;'s Turn&quot;);</span>
-<span class="nc" id="L45">    this.repaint();</span>
-<span class="nc" id="L46">  }</span>
+<span class="nc" id="L42">    this.repaint();</span>
+    String status;
+<span class="nc bnc" id="L44" title="All 2 branches missed.">    if (this.player != model.getCurrentPlayer()) {</span>
+<span class="nc" id="L45">      status = &quot;Waiting&quot;;</span>
+    } else {
+<span class="nc" id="L47">      status = &quot;Playing&quot;;</span>
+    }
+<span class="nc" id="L49">    this.setTitle(player.toString() + &quot; - &quot; + status);</span>
+<span class="nc" id="L50">  }</span>
 
   @Override
   public void makeVisible() {
-<span class="nc" id="L50">    this.setVisible(true);</span>
-<span class="nc" id="L51">  }</span>
+<span class="nc" id="L54">    this.setVisible(true);</span>
+<span class="nc" id="L55">  }</span>
 
   @Override
   public void setListener(FeatureListener listener) {
     //adds click listeners to each panel
-<span class="nc" id="L56">    this.boardPanel.setListener(listener);</span>
-<span class="nc" id="L57">    this.handPanel.setListener(listener);</span>
+<span class="nc" id="L60">    this.boardPanel.setListener(listener, this);</span>
+<span class="nc" id="L61">    this.handPanel.setListener(listener, this);</span>
     //creates key listeners to connect the controller to the view
     //'c' is for confirming the placement of a selected card on the selected cell
     //'p' is for passing a turn
-<span class="nc" id="L61">    KeyListener keyListener = new KeyListener() {</span>
+<span class="nc" id="L65">    KeyListener keyListener = new KeyListener() {</span>
       @Override
       public void keyTyped(KeyEvent e) {
-<span class="nc bnc" id="L64" title="All 2 branches missed.">        if (e.getKeyChar() == 'c') {</span>
-<span class="nc" id="L65">          listener.confirmMove(player);</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if (e.getKeyChar() == 'c') {</span>
+<span class="nc" id="L69">          listener.confirmMove(player);</span>
         }
-<span class="nc bnc" id="L67" title="All 2 branches missed.">        if (e.getKeyChar() == 'p') {</span>
-<span class="nc" id="L68">          listener.passTurn(player);</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">        if (e.getKeyChar() == 'p') {</span>
+<span class="nc" id="L72">          listener.passTurn(player);</span>
         }
-<span class="nc" id="L70">      }</span>
+<span class="nc" id="L74">      }</span>
 
       @Override
       public void keyPressed(KeyEvent e) {
 
-<span class="nc" id="L75">      }</span>
+<span class="nc" id="L79">      }</span>
 
       @Override
       public void keyReleased(KeyEvent e) {
 
-<span class="nc" id="L80">      }</span>
+<span class="nc" id="L84">      }</span>
     };
-<span class="nc" id="L82">    this.addKeyListener(keyListener);</span>
-<span class="nc" id="L83">  }</span>
+<span class="nc" id="L86">    this.addKeyListener(keyListener);</span>
+<span class="nc" id="L87">  }</span>
 
   @Override
   public void refreshSize(int rows, int cols, int handSize) {
-<span class="nc" id="L87">    this.boardPanel.updateDimensions(rows, cols, handSize);</span>
-<span class="nc" id="L88">    this.handPanel.updateDimensions(rows, cols, handSize);</span>
-<span class="nc" id="L89">    this.boardPanel.revalidate();</span>
-<span class="nc" id="L90">    this.handPanel.revalidate();</span>
-<span class="nc" id="L91">    this.pack();</span>
-<span class="nc" id="L92">    this.refresh();</span>
-<span class="nc" id="L93">  }</span>
+<span class="nc" id="L91">    this.boardPanel.updateDimensions(rows, cols, handSize);</span>
+<span class="nc" id="L92">    this.handPanel.updateDimensions(rows, cols, handSize);</span>
+<span class="nc" id="L93">    this.boardPanel.revalidate();</span>
+<span class="nc" id="L94">    this.handPanel.revalidate();</span>
+<span class="nc" id="L95">    this.pack();</span>
+<span class="nc" id="L96">    this.refresh();</span>
+<span class="nc" id="L97">  }</span>
 
   @Override
   public PublisherPanel getBoardPanel() {
-<span class="nc" id="L97">    return this.boardPanel;</span>
+<span class="nc" id="L101">    return this.boardPanel;</span>
   }
 
   @Override
   public PublisherPanel getHandPanel() {
-<span class="nc" id="L102">    return this.handPanel;</span>
+<span class="nc" id="L106">    return this.handPanel;</span>
   }
 
   @Override
-  public void endGame() {
-<span class="nc" id="L107">    this.boardPanel.setEnabled(false);</span>
-<span class="nc" id="L108">    this.handPanel.setEnabled(false);</span>
-<span class="nc bnc" id="L109" title="All 2 branches missed.">    for (KeyListener kl : this.getKeyListeners()) {</span>
-<span class="nc" id="L110">      this.removeKeyListener(kl);</span>
+  public void endGame(Player winner) {
+    //stops the players from continuing to interact with the view
+<span class="nc" id="L112">    this.boardPanel.setEnabled(false);</span>
+<span class="nc" id="L113">    this.handPanel.setEnabled(false);</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">    for (KeyListener kl : this.getKeyListeners()) {</span>
+<span class="nc" id="L115">      this.removeKeyListener(kl);</span>
     }
-<span class="nc" id="L112">  }</span>
+    //calls the method to send a message about the winner
+<span class="nc" id="L118">    this.showWinner(winner);</span>
+<span class="nc" id="L119">  }</span>
 
   @Override
   public void showWinner(Player winner) {
-<span class="nc bnc" id="L116" title="All 2 branches missed.">    String winnerMessage = (winner == null)</span>
-<span class="nc" id="L117">            ? &quot;Game over! It's a tie.&quot; : &quot;Game over! &quot; + winner + &quot; wins!&quot;;</span>
-<span class="nc" id="L118">    JOptionPane.showMessageDialog(this, winnerMessage);</span>
-<span class="nc" id="L119">  }</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">    String winnerMessage = (winner == null)</span>
+<span class="nc" id="L124">            ? &quot;Game over! It's a tie.&quot; : &quot;Game over! &quot; + winner + &quot; wins!&quot;;</span>
+<span class="nc" id="L125">    JOptionPane.showMessageDialog(this, winnerMessage);</span>
+<span class="nc" id="L126">  }</span>
+
+  @Override
+  public void showTurn(Player player) {
+<span class="nc" id="L130">    JOptionPane.showMessageDialog(this, this.model.getCurrentPlayer().toString() + &quot;'s turn&quot;);</span>
+<span class="nc" id="L131">  }</span>
+
+  @Override
+  public void showError(String reason) {
+<span class="nc" id="L135">    JOptionPane.showMessageDialog(this, reason);</span>
+<span class="nc" id="L136">  }</span>
+
+  @Override
+  public void showPass(Player player) {
+<span class="nc" id="L140">    JOptionPane.showMessageDialog(this, player.toString() + &quot; passed&quot;);</span>
+<span class="nc" id="L141">  }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

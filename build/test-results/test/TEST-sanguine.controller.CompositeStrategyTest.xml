@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="sanguine.controller.CompositeStrategyTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2025-12-02T21:03:18.766Z" hostname="MacBook-3.local" time="0.021">
+<testsuite name="sanguine.controller.CompositeStrategyTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2025-12-05T23:06:26.721Z" hostname="MacBook-3.local" time="0.012">
   <properties/>
-  <testcase name="testReturnsEmptyWhenFirstStrategyReturnsEmpty" classname="sanguine.controller.CompositeStrategyTest" time="0.017"/>
+  <testcase name="testReturnsEmptyWhenFirstStrategyReturnsEmpty" classname="sanguine.controller.CompositeStrategyTest" time="0.009"/>
   <testcase name="testSingleStrategyWorks" classname="sanguine.controller.CompositeStrategyTest" time="0.002"/>
-  <testcase name="testCombinesMaximizeAndControl" classname="sanguine.controller.CompositeStrategyTest" time="0.001"/>
-  <testcase name="testThreeStrategyComposition" classname="sanguine.controller.CompositeStrategyTest" time="0.0"/>
-  <testcase name="testUsesSecondStrategyToBreakTies" classname="sanguine.controller.CompositeStrategyTest" time="0.001"/>
+  <testcase name="testCombinesMaximizeAndControl" classname="sanguine.controller.CompositeStrategyTest" time="0.0"/>
+  <testcase name="testThreeStrategyComposition" classname="sanguine.controller.CompositeStrategyTest" time="0.001"/>
+  <testcase name="testUsesSecondStrategyToBreakTies" classname="sanguine.controller.CompositeStrategyTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

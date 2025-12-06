@@ -46,7 +46,38 @@ public interface SanguineView {
    */
   PublisherPanel getHandPanel();
 
-  void endGame();
+  /**
+   * Sends a message about the game being over.
+   *
+   * @param winner the player that won or null if no one won
+   */
+  void endGame(Player winner);
 
+  /**
+   * Is called by the endGame method and shows who won.
+   *
+   * @param winner the player that won or null if no one won
+   */
   void showWinner(Player winner);
+
+  /**
+   * Sends a message about which player's turn it is.
+   *
+   * @param player the current player
+   */
+  void showTurn(Player player);
+
+  /**
+   * Sends a message about any error that occurred.
+   *
+   * @param reason the error message
+   */
+  void showError(String reason);
+
+  /**
+   * Sends a message about which player passed their turn.
+   *
+   * @param player the current player
+   */
+  void showPass(Player player);
 }

@@ -181,4 +181,63 @@ public class SanguineModelTests {
     game.startGame(3, 5, 5, false);
     game.startGame(3, 5, 5, false);
   }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testCheckValidMove() {
+    List<Coordinate> influences = new ArrayList<>();
+    influences.add(new Coordinate(1, 0));
+    influences.add(new Coordinate(0, 1));
+    redDeck.add(new InfluenceCard(Player.RED, "Card16", 2, 1, influences));
+    game.startGame(3, 5, 5, false);
+    game.checkValidMove(game.getCell(0, 0), blueDeck.get(0));
+    game.checkValidMove(game.getCell(0, 2), redDeck.get(0));
+    game.checkValidMove(game.getCell(0, 0), redDeck.get(15));
+  }
+
+  @Test
+  public void testGetCell() {
+    game.startGame(3, 5, 5, false);
+    assertTrue(game.getCell(0, 0).equals(new PawnCell(1, Player.RED)));
+    game.playCard(redDeck.get(1), 0, 0);
+    assertTrue(game.getCell(0, 0).equals(new ValueCell(1, Player.RED)));
+    assertNull(game.getCell(0, 2));
+  }
+
+  @Test
+  public void testScores() {
+    game.startGame(3, 5, 5, false);
+    assertEquals(0, game.getRowScore(0, Player.RED));
+    game.playCard(redDeck.get(1), 0, 0);
+    assertEquals(1, game.getRowScore(0, Player.RED));
+    game.playCard(blueDeck.get(1), 0, 4);
+    game.playCard(redDeck.get(1), 0, 1);
+    assertEquals(2, game.getTotalScore(Player.RED));
+
+  }
+
+  @Test
+  public void testGetCellOwner() {
+    game.startGame(3, 5, 5, false);
+    assertEquals(Player.RED, game.getCellOwner(0, 0));
+    game.playCard(redDeck.get(1), 0, 0);
+    game.playCard(blueDeck.get(1), 0, 4);
+    assertEquals(Player.BLUE, game.getCellOwner(0, 4));
+    assertNull(game.getCellOwner(0, 2));
+  }
+
+  @Test
+  public void testGetCellContents() {
+    game.startGame(3, 5, 5, false);
+    assertEquals("PawnCell BLUE 1", game.getCellContents(0, 4));
+    game.playCard(redDeck.get(1), 0, 0);
+    assertEquals("ValueCell RED 1", game.getCellContents(0, 0));
+    assertEquals("null cell", game.getCellContents(0, 2));
+  }
+
+  @Test
+  public void testGetBoardSize() {
+    game.startGame(3, 5, 5, false);
+    assertEquals(3, game.getNumRows());
+    assertEquals(5, game.getNumCols());
+  }
 }

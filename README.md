@@ -65,7 +65,7 @@ To represent cards (`sanguine.model`), we created a `Card` interface, implemente
 - Added `equals()` and `hashCode()` methods for new `Move` and `HandPanel` classes
 - Modified `playCard()` in `InfluenceCard` to reflect the flipped axis orientation when influencing cells of the board.
 
-## New Interfaces/Classes
+## New Interfaces/Classes for Part 2
 
 1. `ReadonlySanguineModel`
 
@@ -144,3 +144,40 @@ To represent cards (`sanguine.model`), we created a `Card` interface, implemente
 
 - A mock implementation of the `SanguineModel` interface.
 - Used with `MockBoard` to test strategies through controlled game states.
+
+## Changes for Part 3
+
+1. `Board`
+
+- Added a separate method that checks if a move is valid or not
+
+2. `ReadonlySanguineModel`
+
+- Added observer methods to allow clients to easily access more model information
+
+3. `FeatureListener`
+
+- Added confirmMove() for the controller to call the model after a player has pressed the 'c' key
+- Added pass() for the controller to call the model after a player has pressed the 'p' key
+
+4. `SanguineFrame`
+
+- Added methods to send messages to the view frames about player actions and model status notifications 
+
+5. `SanguineGuiController`
+
+- Subscribes to both FeaturesListener and ModelListener to connect messages between model and view
+- Added a separate method, checkGameOver(), for checking whether a move is valid or not
+
+6. `SanguineGame`
+
+- Added methods to notify the controller about model statuses such as player turn switching, turn passing, error throwing, and game over details
+
+
+## New Interfaces/Classes for Part 3
+
+1. `ModelListener`
+
+- This interface is the publisher for model status notifications that the controller subscribes to
+- It's methods, turnChanged(), gameOver(), errorOccurrence(), and turnPassed(), tell the controllers for each player about the respective events that have occurred in the model component 
+- The controller is able to send these notifications to the view for the players to be aware about

@@ -49,4 +49,71 @@ public interface ReadonlySanguineModel {
    * @return the player's card hand
    */
   List<Card> getPlayerHand(Player player);
+
+  /**
+   * Checks if the placement of a card on a given board coordinate is valid.
+   *
+   * @param currentCell the selected cell
+   * @param card the selected card
+   */
+  void checkValidMove(Cell currentCell, Card card);
+
+  /**
+   * Gets the cell of a given board coordinate.
+   *
+   * @param row the row number of the board
+   * @param col the column number of the board
+   * @return the cell at the given coordinate
+   */
+  Cell getCell(int row, int col);
+
+  /**
+   * Gets the total score for a given player.
+   *
+   * @param player either a RED or BLUE player
+   * @return the total score of a player
+   */
+  int getTotalScore(Player player);
+
+  /**
+   * Gets the score of a player at a given row.
+   *
+   * @param row the row number of a board
+   * @param player either a RED or BLUE player
+   * @return the row score of a player
+   */
+  int getRowScore(int row, Player player);
+
+  /**
+   * Returns the player who owns a given cell or null if the cell is null.
+   *
+   * @param row the row number of the board
+   * @param col the column number of the board
+   * @return the owner of a given board cell coordinate
+   */
+  Player getCellOwner(int row, int col);
+
+  /**
+   * Returns the contents of a given cell as a String. A PawnCell has a player and number of pawns,
+   * a ValueCell has a player and a value from the card placed on it, and a null cell is just null.
+   *
+   * @param row the row number of the board
+   * @param col the column number of the board
+   * @return the contents of a given cell coordinate
+   */
+  String getCellContents(int row, int col);
+
+  /**
+   * Returns how many rows are in the board.
+   *
+   * @return the number of rows in the board
+   */
+  int getNumRows();
+
+  /**
+   * Returns how many columns are in the board.
+   *
+   * @return the number of columns in the board
+   */
+  int getNumCols();
 }

@@ -56,4 +56,13 @@ public interface Board {
    * @return Copy of cells on the board
    */
   List<List<Cell>> getCells();
+
+  /**
+   * Checks if a card placement on a given board coordinate is valid.
+   * The cell must be a PawnCell and have enough pawns to cover the cost of the card.
+   *
+   * @param currentCell the cell that is selected
+   * @param card the card that is selected
+   */
+  void checkValidMove(Cell currentCell, Card card);
 }

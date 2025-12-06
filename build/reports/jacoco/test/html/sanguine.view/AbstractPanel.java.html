@@ -31,7 +31,7 @@ public abstract class AbstractPanel extends JPanel implements PublisherPanel {
 <span class="nc" id="L31">  }</span>
 
   @Override
-  public void setListener(FeatureListener listener) {
+  public void setListener(FeatureListener listener, SanguineView view) {
 <span class="nc" id="L35">    this.addMouseListener(new ClickListener(listener, this));</span>
 <span class="nc" id="L36">  }</span>
 
