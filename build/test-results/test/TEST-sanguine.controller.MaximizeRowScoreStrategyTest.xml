@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="sanguine.controller.MaximizeRowScoreStrategyTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2025-12-05T15:48:29.337Z" hostname="MacBook-3.local" time="0.002">
+<testsuite name="sanguine.controller.MaximizeRowScoreStrategyTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2025-12-05T23:06:26.749Z" hostname="MacBook-3.local" time="0.003">
   <properties/>
-  <testcase name="testWinsTiedRow" classname="sanguine.controller.MaximizeRowScoreStrategyTest" time="0.0"/>
-  <testcase name="testChecksCost" classname="sanguine.controller.MaximizeRowScoreStrategyTest" time="0.0"/>
+  <testcase name="testWinsTiedRow" classname="sanguine.controller.MaximizeRowScoreStrategyTest" time="0.001"/>
+  <testcase name="testChecksCost" classname="sanguine.controller.MaximizeRowScoreStrategyTest" time="0.001"/>
   <testcase name="testWinsLosingRow" classname="sanguine.controller.MaximizeRowScoreStrategyTest" time="0.0"/>
   <testcase name="testSkipsWinningRow" classname="sanguine.controller.MaximizeRowScoreStrategyTest" time="0.0"/>
-  <testcase name="testMovesToNextRow" classname="sanguine.controller.MaximizeRowScoreStrategyTest" time="0.0"/>
+  <testcase name="testMovesToNextRow" classname="sanguine.controller.MaximizeRowScoreStrategyTest" time="0.001"/>
   <testcase name="testPicksAllBestCards" classname="sanguine.controller.MaximizeRowScoreStrategyTest" time="0.0"/>
   <testcase name="testPicksAllBestLocations" classname="sanguine.controller.MaximizeRowScoreStrategyTest" time="0.0"/>
-  <testcase name="testSkipsEqualRowIfNoWinningMove" classname="sanguine.controller.MaximizeRowScoreStrategyTest" time="0.001"/>
+  <testcase name="testSkipsEqualRowIfNoWinningMove" classname="sanguine.controller.MaximizeRowScoreStrategyTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

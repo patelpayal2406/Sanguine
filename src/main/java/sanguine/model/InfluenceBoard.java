@@ -102,19 +102,7 @@ public class InfluenceBoard implements Board {
 
   @Override
   public void playCard(Card card, int row, int col) throws IllegalArgumentException {
-    Cell currentCell = this.getCell(row, col);
-    // Check if cell is a pawn cell
-    if (!(currentCell instanceof PawnCell)) {
-      throw new IllegalArgumentException("Invalid cell. Must be a pawn cell.");
-    }
-    // Check if cell is owned by player
-    if (!(currentCell.getPlayer() == card.getPlayer())) {
-      throw new IllegalArgumentException("Invalid cell. Cell not owned by current player.");
-    }
-    // Check if cell has enough pawns for cost
-    if (currentCell.getValue() < card.getCost()) {
-      throw new IllegalArgumentException("Invalid cell. Not enough pawns for card cost.");
-    }
+    this.checkValidMove(this.getCell(row, col), card);
     // Get influences for card
     List<Coordinate> influences = card.getInfluence();
     // Loop through influences, using row and col as absolute position
@@ -133,7 +121,6 @@ public class InfluenceBoard implements Board {
             || col < 0 || col >= this.cells.get(0).size()) {
       return;
     }
-
     Cell c = getCell(row, col);
     if (c instanceof PawnCell) {
       if (c.getPlayer() == player) {
@@ -175,6 +162,22 @@ public class InfluenceBoard implements Board {
     if (row < 0 || row >= this.cells.size()
             || col < 0 || col >= this.cells.get(0).size()) {
       throw new IllegalArgumentException("Invalid row or column.");
+    }
+  }
+
+  @Override
+  public void checkValidMove(Cell currentCell, Card card) {
+    // Check if cell is a pawn cell
+    if (!(currentCell instanceof PawnCell)) {
+      throw new IllegalArgumentException("Invalid cell. Must be a pawn cell.");
+    }
+    // Check if cell is owned by player
+    if (!(currentCell.getPlayer() == card.getPlayer())) {
+      throw new IllegalArgumentException("Invalid cell. Cell not owned by current player.");
+    }
+    // Check if cell has enough pawns for cost
+    if (currentCell.getValue() < card.getCost()) {
+      throw new IllegalArgumentException("Invalid cell. Not enough pawns for card cost.");
     }
   }
 }

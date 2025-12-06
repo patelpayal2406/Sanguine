@@ -1,5 +1,7 @@
 package sanguine.model;
 
+import java.util.Objects;
+
 /**
  * Represents a cell that holds a certain number of pawns.
  */
@@ -33,5 +35,23 @@ public class PawnCell implements Cell {
   @Override
   public Player getPlayer() {
     return this.player;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    PawnCell that = (PawnCell) obj;
+    return player == that.player
+            && numPawns == that.numPawns;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(player, numPawns);
   }
 }

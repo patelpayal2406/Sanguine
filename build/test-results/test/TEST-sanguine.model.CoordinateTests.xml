@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="sanguine.model.CoordinateTests" tests="2" skipped="0" failures="0" errors="0" timestamp="2025-12-05T15:48:29.347Z" hostname="MacBook-3.local" time="0.0">
+<testsuite name="sanguine.model.CoordinateTests" tests="2" skipped="0" failures="0" errors="0" timestamp="2025-12-05T23:06:26.763Z" hostname="MacBook-3.local" time="0.0">
   <properties/>
   <testcase name="testCoordinateCreation" classname="sanguine.model.CoordinateTests" time="0.0"/>
   <testcase name="testMultipleCoordinates" classname="sanguine.model.CoordinateTests" time="0.0"/>

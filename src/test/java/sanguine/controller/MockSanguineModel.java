@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import sanguine.model.Board;
 import sanguine.model.Card;
+import sanguine.model.Cell;
 import sanguine.model.Player;
 import sanguine.model.SanguineModel;
 import sanguine.view.ModelListener;
@@ -62,6 +63,53 @@ public class MockSanguineModel implements SanguineModel {
       return currentPlayerHand;
     }
     return new ArrayList<>();
+  }
+
+  @Override
+  public Cell getCell(int row, int col) {
+    log.add("getCell:" + row + "," + col);
+    return null;
+  }
+
+  @Override
+  public int getTotalScore(Player player) {
+    log.add("getTotalScore:" + player.toString());
+    return 0;
+  }
+
+  @Override
+  public int getRowScore(int row, Player player) {
+    log.add("getRowScore:" + row + "," + player.toString());
+    return 0;
+  }
+
+  @Override
+  public Player getCellOwner(int row, int col) {
+    log.add("cellOwner:" + row + "," + col);
+    return null;
+  }
+
+  @Override
+  public String getCellContents(int row, int col) {
+    log.add("getCellContents:" + row + "," + col);
+    return "";
+  }
+
+  @Override
+  public int getNumRows() {
+    log.add("getNumRows");
+    return 0;
+  }
+
+  @Override
+  public int getNumCols() {
+    log.add("getNumCols");
+    return 0;
+  }
+
+  @Override
+  public void checkValidMove(Cell currentCell, Card card) {
+    log.add("checkValidMove");
   }
 
   /**

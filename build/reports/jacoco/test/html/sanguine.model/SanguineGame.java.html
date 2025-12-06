@@ -66,7 +66,7 @@ public class SanguineGame implements SanguineModel {
 <span class="fc bfc" id="L66" title="All 2 branches covered.">    if (board != null) {</span>
 <span class="fc" id="L67">      throw new IllegalStateException(&quot;Game has already been started&quot;);</span>
     }
-    //throws an error if there are not enough cards in a deck to possible play on every cells
+    //throws an error if there are not enough cards in a deck to possible play on every cell
     //of the customized board
 <span class="pc bpc" id="L71" title="1 of 2 branches missed.">    if (redDeck.size() &lt; rows * cols) {</span>
 <span class="nc" id="L72">      throw new IllegalArgumentException(&quot;Not enough cards to play on board size&quot;);</span>
@@ -165,7 +165,7 @@ public class SanguineGame implements SanguineModel {
 <span class="fc" id="L165">  }</span>
 
   private void drawCardToHand(Player player) {
-<span class="fc" id="L168">    this.getPlayerHand(player).add((InfluenceCard) this.removeCardFromDeck(player));</span>
+<span class="fc" id="L168">    this.getPlayerHand(player).add(this.removeCardFromDeck(player));</span>
 <span class="fc" id="L169">  }</span>
 
   private Card removeCardFromDeck(Player player) {
@@ -199,8 +199,8 @@ public class SanguineGame implements SanguineModel {
 <span class="fc bfc" id="L199" title="All 2 branches covered.">    if (!gameOver()) {</span>
 <span class="fc" id="L200">      return null;</span>
     }
-<span class="fc" id="L202">    int redTotal = board.getTotalScore(Player.RED);</span>
-<span class="fc" id="L203">    int blueTotal = board.getTotalScore(Player.BLUE);</span>
+<span class="fc" id="L202">    int redTotal = this.getTotalScore(Player.RED);</span>
+<span class="fc" id="L203">    int blueTotal = this.getTotalScore(Player.BLUE);</span>
     //compares the total row scores and returns the player with the highest number
 <span class="fc bfc" id="L205" title="All 2 branches covered.">    if (redTotal &gt; blueTotal) {</span>
 <span class="fc" id="L206">      return Player.RED;</span>
@@ -250,6 +250,59 @@ public class SanguineGame implements SanguineModel {
   @Override
   public List&lt;Card&gt; getPlayerHand(Player player) {
 <span class="fc bfc" id="L252" title="All 2 branches covered.">    return player == Player.RED ? this.redHand : this.blueHand;</span>
+  }
+
+  @Override
+  public Cell getCell(int row, int column) {
+<span class="fc" id="L257">    return this.board.getCell(row, column);</span>
+  }
+
+  @Override
+  public void checkValidMove(Cell currentCell, Card card) {
+<span class="nc" id="L262">    this.board.checkValidMove(currentCell, card);</span>
+<span class="nc" id="L263">  }</span>
+
+  @Override
+  public int getTotalScore(Player player) {
+<span class="fc" id="L267">    return this.board.getTotalScore(player);</span>
+  }
+
+  @Override
+  public int getRowScore(int row, Player player) {
+<span class="fc" id="L272">    return this.board.getRowScore(row, player);</span>
+  }
+
+  @Override
+  public Player getCellOwner(int row, int col) {
+<span class="fc bfc" id="L277" title="All 2 branches covered.">    if (this.getCell(row, col) == null) {</span>
+<span class="fc" id="L278">      return null;</span>
+    }
+<span class="fc" id="L280">    return this.getCell(row, col).getPlayer();</span>
+  }
+
+  @Override
+  public String getCellContents(int row, int col) {
+    String cellType;
+<span class="fc bfc" id="L286" title="All 2 branches covered.">    if (this.getCell(row, col) instanceof ValueCell) {</span>
+<span class="fc" id="L287">      cellType = &quot;ValueCell &quot;;</span>
+<span class="fc bfc" id="L288" title="All 2 branches covered.">    } else if (this.getCell(row, col) instanceof PawnCell) {</span>
+<span class="fc" id="L289">      cellType = &quot;PawnCell &quot;;</span>
+    } else {
+<span class="fc" id="L291">      return &quot;null cell&quot;;</span>
+    }
+<span class="fc" id="L293">    String cellOwner = this.getCellOwner(row, col).toString();</span>
+<span class="fc" id="L294">    int cellValue = this.board.getCell(row, col).getValue();</span>
+<span class="fc" id="L295">    return cellType + cellOwner + &quot; &quot; + cellValue;</span>
+  }
+
+  @Override
+  public int getNumRows() {
+<span class="fc" id="L300">    return this.board.getCells().size();</span>
+  }
+
+  @Override
+  public int getNumCols() {
+<span class="fc" id="L305">    return this.board.getCells().get(0).size();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

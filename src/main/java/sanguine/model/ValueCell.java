@@ -1,5 +1,7 @@
 package sanguine.model;
 
+import java.util.Objects;
+
 /**
  * Represents a cell that has a card placed on it. The value of the card is displayed on this cell.
  */
@@ -34,5 +36,23 @@ public class ValueCell implements Cell {
   @Override
   public Player getPlayer() {
     return this.player;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    ValueCell that = (ValueCell) obj;
+    return player == that.player
+            && value == that.value;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(player, value);
   }
 }

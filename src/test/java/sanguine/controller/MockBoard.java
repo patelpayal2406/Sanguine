@@ -79,6 +79,11 @@ public class MockBoard implements Board {
   }
 
   @Override
+  public void checkValidMove(Cell currentCell, Card card) {
+    log.add("checkValidMove");
+  }
+
+  @Override
   public Cell getCell(int row, int col) {
     log.add("getCell:" + row + "," + col);
     if (row < 0 || row >= cells.size() || col < 0 || col >= cells.get(row).size()) {
