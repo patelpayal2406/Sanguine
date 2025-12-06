@@ -172,7 +172,7 @@ To represent cards (`sanguine.model`), we created a `Card` interface, implemente
 
 - Added methods to notify the controller about model statuses such as player turn switching, turn passing, error throwing, and game over details
 
-## New Interfaces/Classes for Part 2
+## New Interfaces/Classes for Part 3
 
 1. `ModelListener`
 
