@@ -167,10 +167,12 @@ To represent cards (`sanguine.model`), we created a `Card` interface, implemente
 5. `SanguineGuiController`
 
 - Subscribes to both FeaturesListener and ModelListener to connect messages between model and view
+- Added a separate method, checkGameOver(), for checking whether a move is valid or not
 
 6. `SanguineGame`
 
 - Added methods to notify the controller about model statuses such as player turn switching, turn passing, error throwing, and game over details
+
 
 ## New Interfaces/Classes for Part 3
 
