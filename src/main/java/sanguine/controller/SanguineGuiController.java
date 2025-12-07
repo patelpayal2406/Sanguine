@@ -14,6 +14,7 @@ import sanguine.view.SanguineView;
 public class SanguineGuiController implements SanguineController, FeatureListener, ModelListener {
   private final SanguineView playerView;
   private final SanguineModel model;
+  private final PlayerActions playerActions;
   private boolean cellWasSelected;
   private boolean cardWasSelected;
   private int selectedCellRow;
@@ -28,17 +29,19 @@ public class SanguineGuiController implements SanguineController, FeatureListene
    * @param model the Sanguine model
    * @param player the player of this controller
    */
-  public SanguineGuiController(SanguineView playerView, SanguineModel model, Player player) {
-    if (playerView == null || model == null) {
-      throw new IllegalArgumentException("View and model cannot be null");
+  public SanguineGuiController(SanguineView playerView, SanguineModel model, PlayerActions player) {
+    if (playerView == null || model == null || player == null) {
+      throw new IllegalArgumentException("View, model, and player cannot be null");
     }
     this.playerView = playerView;
+    this.model = model;
+    this.playerActions = player;
     //adds the ability for feature listening to the frame
     this.playerView.setListener(this);
-    this.model = model;
+    this.controllerPlayer = player.getPlayer();
     //adds the ability for listening to the model
     this.model.setListener(this);
-    this.controllerPlayer = player;
+    this.playerActions.setListener(this);
     this.cellWasSelected = false;
     this.cardWasSelected = false;
     this.selectedCellRow = -1;
@@ -59,8 +62,11 @@ public class SanguineGuiController implements SanguineController, FeatureListene
     //makes the frame visible as soon as it is adjusted
     this.playerView.makeVisible();
     //shows the first player's turn
-    if (Player.RED == this.controllerPlayer) {
-      this.playerView.showTurn(Player.RED);
+    if (this.model.getCurrentPlayer() == this.controllerPlayer) {
+      this.playerView.showTurn(this.controllerPlayer);
+      if (this.playerActions.isAutomated()) {
+        this.playerActions.takeTurn(this.model);
+      }
     }
   }
 
@@ -73,10 +79,8 @@ public class SanguineGuiController implements SanguineController, FeatureListene
 
   @Override
   public void selectBoardCell(int row, int col, Player player) {
-    if (player != model.getCurrentPlayer()) {
-      String message = "Player " + player + " is not currently playing";
-      this.playerView.showError(message);
-      throw new IllegalStateException(message);
+    if (!this.canAct(player)) {
+      return;
     }
     PublisherPanel boardPanel = this.playerView.getBoardPanel();
     boolean isSameCell = this.selectedCellRow == row
@@ -100,10 +104,8 @@ public class SanguineGuiController implements SanguineController, FeatureListene
 
   @Override
   public void selectCard(int cardIndex, Player player) {
-    if (player != model.getCurrentPlayer()) {
-      String message = "Player " + player + " is not currently playing";
-      this.playerView.showError(message);
-      throw new IllegalStateException(message);
+    if (!this.canAct(player)) {
+      return;
     }
     PublisherPanel handPanel = this.playerView.getHandPanel();
     boolean isSameCard = this.selectedCardIndex == cardIndex;
@@ -124,6 +126,9 @@ public class SanguineGuiController implements SanguineController, FeatureListene
 
   @Override
   public void confirmMove(Player player) {
+    if (!this.canAct(player)) {
+      return;
+    }
     if (!cellWasSelected || !cardWasSelected) {
       this.playerView.showError("Please select both a cell and card");
       return;
@@ -131,24 +136,26 @@ public class SanguineGuiController implements SanguineController, FeatureListene
     try {
       model.playCard(model.getPlayerHand(player).get(this.selectedCardIndex),
               this.selectedCellRow, this.selectedCellCol);
-    } catch (IllegalArgumentException e) {
+      this.clearSelections();
+      this.checkGameOver();
+    } catch (IllegalArgumentException | IllegalStateException e) {
       this.playerView.showError(e.getMessage());
     }
-    this.playerView.getBoardPanel().highlightCell(selectedCellRow, selectedCellCol, player, false);
-    this.playerView.getHandPanel().highlightCard(selectedCardIndex, player, false);
-    cellWasSelected = false;
-    cardWasSelected = false;
-    selectedCardIndex = -1;
-    selectedCellRow = -1;
-    selectedCellCol = -1;
-    this.checkGameOver();
   }
 
   @Override
   public void passTurn(Player player) {
-    this.model.pass();
-    this.playerView.refresh();
-    this.checkGameOver();
+    if (!this.canAct(player)) {
+      return;
+    }
+    this.clearSelections();
+    try {
+      this.model.pass();
+      this.playerView.refresh();
+      this.checkGameOver();
+    } catch (IllegalStateException e) {
+      this.playerView.showError(e.getMessage());
+    }
   }
 
   @Override
@@ -156,6 +163,9 @@ public class SanguineGuiController implements SanguineController, FeatureListene
     this.playerView.refresh();
     if (player == this.controllerPlayer) {
       this.playerView.showTurn(player);
+      if (this.playerActions.isAutomated()) {
+        this.playerActions.takeTurn(this.model);
+      }
     }
   }
 
@@ -166,7 +176,9 @@ public class SanguineGuiController implements SanguineController, FeatureListene
 
   @Override
   public void errorOccurrence(String reason) {
-    this.playerView.showError(reason);
+    if (this.model.getCurrentPlayer() == this.controllerPlayer) {
+      this.playerView.showError(reason);
+    }
   }
 
   @Override
@@ -175,5 +187,33 @@ public class SanguineGuiController implements SanguineController, FeatureListene
     if (player == this.controllerPlayer) {
       this.playerView.showPass(player);
     }
+  }
+
+  private boolean canAct(Player player) {
+    if (player != this.controllerPlayer) {
+      this.playerView.showError("Cannot act for player " + player);
+      return false;
+    }
+    if (player != model.getCurrentPlayer()) {
+      this.playerView.showError("Player " + player + " is not currently playing");
+      return false;
+    }
+    return true;
+  }
+
+  private void clearSelections() {
+    if (this.cellWasSelected) {
+      this.playerView.getBoardPanel().highlightCell(this.selectedCellRow,
+              this.selectedCellCol, this.controllerPlayer, false);
+    }
+    if (this.cardWasSelected) {
+      this.playerView.getHandPanel().highlightCard(this.selectedCardIndex,
+              this.controllerPlayer, false);
+    }
+    this.cellWasSelected = false;
+    this.cardWasSelected = false;
+    this.selectedCardIndex = -1;
+    this.selectedCellRow = -1;
+    this.selectedCellCol = -1;
   }
 }

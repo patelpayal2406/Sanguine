@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import sanguine.controller.HumanPlayer;
+import sanguine.controller.PlayerActions;
 import sanguine.controller.SanguineController;
 import sanguine.controller.SanguineGuiController;
 import sanguine.model.Card;
@@ -41,9 +43,11 @@ public final class Sanguine {
       //creates windows for each player to interact with
       SanguineView redView = new SanguineFrame(model, Player.RED);
       SanguineView blueView = new SanguineFrame(model, Player.BLUE);
-      //sets up a controller for each of the players
-      SanguineController redController = new SanguineGuiController(redView, model, Player.RED);
-      SanguineController blueController = new SanguineGuiController(blueView, model, Player.BLUE);
+      //sets up players and controllers for each of the players
+      PlayerActions redPlayer = new HumanPlayer(Player.RED);
+      PlayerActions bluePlayer = new HumanPlayer(Player.BLUE);
+      SanguineController redController = new SanguineGuiController(redView, model, redPlayer);
+      SanguineController blueController = new SanguineGuiController(blueView, model, bluePlayer);
       //uses the user inputs to start the game
       blueController.playGame(rows, cols, handSize, shuffle);
       redController.playGame(rows, cols, handSize, shuffle);

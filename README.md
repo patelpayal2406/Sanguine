@@ -168,11 +168,15 @@ To represent cards (`sanguine.model`), we created a `Card` interface, implemente
 
 - Subscribes to both FeaturesListener and ModelListener to connect messages between model and view
 - Added a separate method, checkGameOver(), for checking whether a move is valid or not
+- Enforces turn ownership for all inputs, clears selections after pass/confirm, and triggers automated turns for machine players
 
 6. `SanguineGame`
 
 - Added methods to notify the controller about model statuses such as player turn switching, turn passing, error throwing, and game over details
 
+7. `Sanguine`
+
+- Changed controllers to use new player-action publishers; both players are human by default but can be swapped for machine players
 
 ## New Interfaces/Classes for Part 3
 
@@ -181,3 +185,15 @@ To represent cards (`sanguine.model`), we created a `Card` interface, implemente
 - This interface is the publisher for model status notifications that the controller subscribes to
 - It's methods, turnChanged(), gameOver(), errorOccurrence(), and turnPassed(), tell the controllers for each player about the respective events that have occurred in the model component 
 - The controller is able to send these notifications to the view for the players to be aware about
+
+2. `PlayerActions`
+
+- Publisher interface for player-driven events so controllers can uniformly handle human and machine turns
+
+3. `MachinePlayer`
+
+- Automated player that uses a strategy to emit select/confirm/pass events to its controller
+
+4. `HumanPlayer`
+
+- Human player implementation that registers the controller listener while relying on the view to emit events
