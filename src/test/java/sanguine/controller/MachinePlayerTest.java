@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.junit.Test;
 import sanguine.model.Card;
 import sanguine.model.Cell;
 import sanguine.model.Coordinate;
@@ -181,7 +182,7 @@ public class MachinePlayerTest {
 
   @Test
   public void publishesSelectAndConfirmForValidMove() {
-    Card card = new InfluenceCard(Player.RED, "C1", 1, 1, Arrays.asList(new Coordinate(0, 0)));
+    Card card = new InfluenceCard(Player.RED, "C1", 1, 1, Arrays.asList(new Coordinate(1, 0)));
     Move move = new Move(card, 0, 1);
     MockStrategy strategy = new MockStrategy(Arrays.asList(move));
     MockModel model = new MockModel(Player.RED, Arrays.asList(card), new sanguine.model.PawnCell(3,
@@ -215,7 +216,7 @@ public class MachinePlayerTest {
 
   @Test
   public void passesWhenAllMovesInvalid() {
-    Card card = new InfluenceCard(Player.RED, "C1", 1, 1, Arrays.asList(new Coordinate(0, 0)));
+    Card card = new InfluenceCard(Player.RED, "C1", 1, 1, Arrays.asList(new Coordinate(1, 0)));
     Move move = new Move(card, 0, 1);
     MockStrategy strategy = new MockStrategy(Arrays.asList(move));
     MockModel model = new MockModel(Player.RED, Arrays.asList(card), new sanguine.model.PawnCell(3,
@@ -231,7 +232,7 @@ public class MachinePlayerTest {
 
   @Test
   public void skipsTurnWhenNotCurrentPlayer() {
-    Card card = new InfluenceCard(Player.RED, "C1", 1, 1, Arrays.asList(new Coordinate(0, 0)));
+    Card card = new InfluenceCard(Player.RED, "C1", 1, 1, Arrays.asList(new Coordinate(1, 0)));
     Move move = new Move(card, 0, 1);
     MockStrategy strategy = new MockStrategy(Arrays.asList(move));
     MockModel model = new MockModel(Player.BLUE, Arrays.asList(card), new sanguine.model.PawnCell(3,
@@ -248,7 +249,7 @@ public class MachinePlayerTest {
 
   @Test
   public void passesWhenCardMissingFromHand() {
-    Card card = new InfluenceCard(Player.RED, "C1", 1, 1, Arrays.asList(new Coordinate(0, 0)));
+    Card card = new InfluenceCard(Player.RED, "C1", 1, 1, Arrays.asList(new Coordinate(1, 0)));
     Move move = new Move(card, 0, 1);
     MockStrategy strategy = new MockStrategy(Arrays.asList(move));
     // Hand does not contain card
