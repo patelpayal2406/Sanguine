@@ -34,25 +34,94 @@ public class HumanPlayerTest {
       this.currentPlayer = currentPlayer;
     }
 
-    @Override public void playCard(sanguine.model.Card card, int row, int col) {}
-    @Override public void switchPlayer() {}
-    @Override public void startGame(int rows, int cols, int handSize, boolean shuffled) {}
-    @Override public void pass() {}
-    @Override public void setListener(sanguine.view.ModelListener listener) {}
-    @Override public boolean gameOver() { return false; }
-    @Override public Player getWinner() { return null; }
-    @Override public Player getCurrentPlayer() { return currentPlayer; }
-    @Override public sanguine.model.Board getBoard() { return null; }
-    @Override public java.util.List<sanguine.model.Card> getDeck(Player player) { return null; }
-    @Override public java.util.List<sanguine.model.Card> getPlayerHand(Player player) { return null; }
-    @Override public sanguine.model.Cell getCell(int row, int column) { return null; }
-    @Override public void checkValidMove(sanguine.model.Cell currentCell, sanguine.model.Card card) {}
-    @Override public int getTotalScore(Player player) { return 0; }
-    @Override public int getRowScore(int row, Player player) { return 0; }
-    @Override public Player getCellOwner(int row, int col) { return null; }
-    @Override public String getCellContents(int row, int col) { return null; }
-    @Override public int getNumRows() { return 0; }
-    @Override public int getNumCols() { return 0; }
+    @Override
+    public void playCard(sanguine.model.Card card, int row, int col) {
+    }
+
+    @Override
+    public void switchPlayer() {
+    }
+
+    @Override
+    public void startGame(int rows, int cols, int handSize, boolean shuffled) {
+    }
+
+    @Override
+    public void pass() {
+    }
+
+    @Override
+    public void setListener(sanguine.view.ModelListener listener) {
+    }
+
+    @Override
+    public boolean gameOver() {
+      return false;
+    }
+
+    @Override
+    public Player getWinner() {
+      return null;
+    }
+
+    @Override
+    public Player getCurrentPlayer() {
+      return currentPlayer;
+    }
+
+    @Override
+    public sanguine.model.Board getBoard() {
+      return null;
+    }
+
+    @Override
+    public java.util.List<sanguine.model.Card> getDeck(Player player) {
+      return null;
+    }
+
+    @Override
+    public java.util.List<sanguine.model.Card> getPlayerHand(Player player) {
+      return null;
+    }
+
+    @Override
+    public sanguine.model.Cell getCell(int row, int column) {
+      return null;
+    }
+
+    @Override
+    public void checkValidMove(sanguine.model.Cell currentCell, sanguine.model.Card card) {
+    }
+
+    @Override
+    public int getTotalScore(Player player) {
+      return 0;
+    }
+
+    @Override
+    public int getRowScore(int row, Player player) {
+      return 0;
+    }
+
+    @Override
+    public Player getCellOwner(int row, int col) {
+      return null;
+    }
+
+    @Override
+    public String getCellContents(int row, int col) {
+      return null;
+    }
+
+    @Override
+    public int getNumRows() {
+      return 0;
+    }
+
+    @Override
+    public int getNumCols() {
+      return 0;
+    }
   }
 
   @Test(expected = IllegalArgumentException.class)

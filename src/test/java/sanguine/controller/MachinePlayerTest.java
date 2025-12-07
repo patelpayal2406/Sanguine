@@ -94,20 +94,70 @@ public class MachinePlayerTest {
     }
 
     // Unused methods for this test suite
-    @Override public void playCard(Card card, int row, int col) {}
-    @Override public void switchPlayer() {}
-    @Override public void startGame(int rows, int cols, int handSize, boolean shuffled) {}
-    @Override public void pass() {}
-    @Override public void setListener(sanguine.view.ModelListener listener) {}
-    @Override public sanguine.model.Board getBoard() { return null; }
-    @Override public List<Card> getDeck(Player player) { return new ArrayList<>(); }
-    @Override public Player getWinner() { return null; }
-    @Override public int getTotalScore(Player player) { return 0; }
-    @Override public int getRowScore(int row, Player player) { return 0; }
-    @Override public Player getCellOwner(int row, int col) { return null; }
-    @Override public String getCellContents(int row, int col) { return ""; }
-    @Override public int getNumRows() { return 0; }
-    @Override public int getNumCols() { return 0; }
+    @Override
+    public void playCard(Card card, int row, int col) {
+    }
+
+    @Override
+    public void switchPlayer() {
+    }
+
+    @Override
+    public void startGame(int rows, int cols, int handSize, boolean shuffled) {
+    }
+
+    @Override
+    public void pass() {
+    }
+
+    @Override
+    public void setListener(sanguine.view.ModelListener listener) {
+    }
+
+    @Override
+    public sanguine.model.Board getBoard() {
+      return null;
+    }
+
+    @Override
+    public List<Card> getDeck(Player player) {
+      return new ArrayList<>();
+    }
+
+    @Override
+    public Player getWinner() {
+      return null;
+    }
+
+    @Override
+    public int getTotalScore(Player player) {
+      return 0;
+    }
+
+    @Override
+    public int getRowScore(int row, Player player) {
+      return 0;
+    }
+
+    @Override
+    public Player getCellOwner(int row, int col) {
+      return null;
+    }
+
+    @Override
+    public String getCellContents(int row, int col) {
+      return "";
+    }
+
+    @Override
+    public int getNumRows() {
+      return 0;
+    }
+
+    @Override
+    public int getNumCols() {
+      return 0;
+    }
   }
 
   private static class MockStrategy implements Strategy {
